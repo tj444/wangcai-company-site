@@ -1,0 +1,11 @@
+2020-07-06 07:25:46,368 INFO 4600 [egg:logger] init all loggers with options: {"dir":"/Users/jack/projects/wangcai-company-site/logs/ssr-with-js","encoding":"utf8","env":"local","level":"INFO","consoleLevel":"INFO","disableConsoleAfterReady":false,"outputJSON":false,"buffer":true,"appLogName":"ssr-with-js-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{"consoleLevel":"WARN"},"allowDebugAtProd":false,"type":"agent"}
+2020-07-06 07:25:46,381 INFO 4600 [egg:core] dump config after load, 8ms
+2020-07-06 07:25:46,411 INFO 4600 [egg-watcher] Start watching: ["/Users/jack/projects/wangcai-company-site/app","/Users/jack/projects/wangcai-company-site/config","/Users/jack/projects/wangcai-company-site/mocks","/Users/jack/projects/wangcai-company-site/mocks_proxy","/Users/jack/projects/wangcai-company-site/app.js"]
+2020-07-06 07:25:46,411 INFO 4600 [egg-watcher] Start watching: "/Users/jack/projects/wangcai-company-site/app"
+2020-07-06 07:25:46,411 INFO 4600 [egg-watcher] Start watching: "/Users/jack/projects/wangcai-company-site/config"
+2020-07-06 07:25:46,412 INFO 4600 [egg-watcher] Start watching: "/Users/jack/projects/wangcai-company-site/mocks"
+2020-07-06 07:25:46,412 INFO 4600 [egg-watcher] Start watching: "/Users/jack/projects/wangcai-company-site/mocks_proxy"
+2020-07-06 07:25:46,412 INFO 4600 [egg-watcher] Start watching: "/Users/jack/projects/wangcai-company-site/app.js"
+2020-07-06 07:25:46,412 INFO 4600 [egg-watcher:agent] watcher start success
+2020-07-06 07:25:46,425 INFO 4600 [egg:core] dump config after ready, 4ms
+2020-07-06 07:25:47,051 INFO 4600 [egg-watcher] Received a change event from eventSource: {"event":"rename","path":"/Users/jack/projects/wangcai-company-site/app/public","stat":{"dev":16777225,"mode":16877,"nlink":2,"uid":501,"gid":20,"rdev":0,"blksize":4096,"ino":89417338,"size":64,"blocks":0,"atimeMs":1593991547039.4941,"mtimeMs":1593991547039.4941,"ctimeMs":1593991547039.4941,"birthtimeMs":1593991547039.4941,"atime":"2020-07-05T23:25:47.039Z","mtime":"2020-07-05T23:25:47.039Z","ctime":"2020-07-05T23:25:47.039Z","birthtime":"2020-07-05T23:25:47.039Z"},"remove":false,"isDirectory":true,"isFile":false}
