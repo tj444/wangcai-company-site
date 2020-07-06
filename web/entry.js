@@ -1,44 +1,86 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter, StaticRouter, Route, Switch } from 'react-router-dom'
-import defaultLayout from '@/layout'
-import { getWrappedComponent, getComponent } from 'ykfe-utils'
-import { routes as Routes } from '../config/config.ssr'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import dva from 'dva';
+import { BrowserRouter, StaticRouter, Route, Switch } from 'react-router-dom';
+import { createMemoryHistory, createBrowserHistory } from 'history';
+import { getWrappedComponent, getComponent } from 'ykfe-utils';
+import { routes as Routes } from '../config/config.ssr';
+import defaultLayout from '@/layout';
+import models from './models';
 
-const clientRender = async () => {
-  // 客户端渲染||hydrate
-  ReactDOM[window.__USE_SSR__ ? 'hydrate' : 'render'](
+const initDva = options => {
+  const app = dva(options);
+  models.forEach(m => app.model(m));
+  app.router(() => {});
+  app.start();
+  return app;
+};
+
+const clientRender = () => {
+  const initialState = window.__INITIAL_DATA__ || {};
+  const history = createBrowserHistory();
+  const app = initDva({
+    initialState,
+    history: history,
+  });
+  const store = app._store;
+
+  app.router(() => (
     <BrowserRouter>
       <Switch>
-        {
-        // 使用高阶组件getWrappedComponent使得csr首次进入页面以及csr/ssr切换路由时调用getInitialProps
-          Routes.map(({ path, exact, Component }) => {
-            const ActiveComponent = Component()
-            const Layout = ActiveComponent.Layout || defaultLayout
-            const WrappedComponent = getWrappedComponent(ActiveComponent)
-            return <Route exact={exact} key={path} path={path} render={() => <Layout key={window.location.pathname}><WrappedComponent /></Layout>} />
-          })
-        }
+        {Routes.map(({ path, exact, Component }) => {
+          const ActiveComponent = Component();
+          const Layout = ActiveComponent.Layout || defaultLayout;
+          const WrappedComponent = getWrappedComponent(ActiveComponent);
+          return (
+            <Route
+              exact={exact}
+              key={path}
+              path={path}
+              render={() => (
+                <Layout>
+                  <WrappedComponent store={store} />
+                </Layout>
+              )}
+            />
+          );
+        })}
       </Switch>
     </BrowserRouter>
-    , document.getElementById('app'))
+  ));
+  const DvaApp = app.start();
+
+  ReactDOM[window.__USE_SSR__ ? 'hydrate' : 'render'](<DvaApp />, document.getElementById('app'));
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept()
+    module.hot.accept();
   }
-}
+};
 
-const serverRender = async (ctx) => {
-  // 服务端渲染 根据ctx.path获取请求的具体组件，调用getInitialProps并渲染
-  const ActiveComponent = getComponent(Routes, ctx.path)()
-  const Layout = ActiveComponent.Layout || defaultLayout
-  const serverData = ActiveComponent.getInitialProps ? await ActiveComponent.getInitialProps(ctx) : {}
-  ctx.serverData = serverData
-  return <StaticRouter location={ctx.req.url} context={serverData}>
-    <Layout layoutData={ctx}>
-      <ActiveComponent {...serverData} />
-    </Layout>
-  </StaticRouter>
-}
+const serverRender = async ctx => {
+  const app = initDva({
+    history: createMemoryHistory({
+      initialEntries: [ctx.req.url],
+    }),
+  });
+  const store = app._store;
+  ctx.store = store;
+  const ActiveComponent = getComponent(Routes, ctx.path)();
+  const Layout = ActiveComponent.Layout || defaultLayout;
+  ActiveComponent.getInitialProps ? await ActiveComponent.getInitialProps(ctx) : {}; // eslint-disable-line
+  const storeState = store.getState();
+  ctx.serverData = storeState;
 
-export default __isBrowser__ ? clientRender() : serverRender
+  app.router(() => (
+    <StaticRouter location={ctx.req.url} context={storeState}>
+      <Layout layoutData={ctx}>
+        <ActiveComponent {...storeState} />
+      </Layout>
+    </StaticRouter>
+  ));
+
+  const DvaApp = app.start();
+  return <DvaApp />;
+};
+
+export default __isBrowser__ ? clientRender() : serverRender;

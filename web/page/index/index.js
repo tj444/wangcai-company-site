@@ -1,28 +1,33 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './index.less'
+import React from 'react';
+import { connect } from 'dva';
+import './index.less';
+import { Link } from 'react-router-dom';
 
-function Page (props) {
+function Page(props) {
   return (
-    <div className='normal'>
-      <div className='welcome' />
-      <ul className='list'>
-        {
-          props.news && props.news.map(item => (
+    <div className="normal">
+      <div className="welcome" />
+      <ul className="list">
+        {props.news &&
+          props.news.map(item => (
             <li key={item.id}>
               <div>文章标题: {item.title}</div>
-              <div className='toDetail'><Link to={`/news/${item.id}`}>点击查看详情</Link></div>
+              <div className="toDetail">
+                <Link to={`/news/${item.id}`}>点击查看详情</Link>
+              </div>
             </li>
-          ))
-        }
+          ))}
       </ul>
     </div>
-  )
+  );
 }
 
-Page.getInitialProps = async (ctx) => {
-  // ssr渲染模式只在服务端通过Node获取数据，csr渲染模式只在客户端通过http请求获取数据，getInitialProps方法在整个页面生命周期只会执行一次
-  return __isBrowser__ ? (await window.fetch('/api/getIndexData')).json() : ctx.service.api.index()
-}
+Page.getInitialProps = async ({ store }) => {
+  await store.dispatch({ type: 'page/getData' });
+};
 
-export default Page
+const mapStateToProps = state => ({
+  news: state.page.news,
+});
+
+export default connect(mapStateToProps)(Page);

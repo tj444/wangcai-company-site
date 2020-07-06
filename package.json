@@ -2,14 +2,16 @@
   "name": "ssr-with-js",
   "version": "2.3.3",
   "dependencies": {
+    "dva": "^2.4.1",
     "egg": "^2.21.0",
     "egg-scripts": "^2.11.0",
     "egg-static": "^2.2.0",
     "react": "16.8.3",
     "react-dom": "16.8.3",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.0.0",
-    "ykfe-utils": "^3.0.0",
-    "serialize-javascript": "^2.1.2"
+    "serialize-javascript": "^2.1.2",
+    "ykfe-utils": "^3.0.0"
   },
   "scripts": {
     "debug": "egg-bin debug",
