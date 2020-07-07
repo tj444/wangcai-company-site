@@ -44,6 +44,20 @@ module.exports = {
       Component: () => (require('@/page/lottery').default),
       controller: 'page',
       handler: 'index'
+    },
+    {
+      path: '/owner',
+      exact: true,
+      Component: () => (require('@/page/owner').default),
+      controller: 'page',
+      handler: 'index'
+    },
+    {
+      path: '/customer',
+      exact: true,
+      Component: () => (require('@/page/customer').default),
+      controller: 'page',
+      handler: 'index'
     }
   ],
   baseDir: resolvePath('../'),

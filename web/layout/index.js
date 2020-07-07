@@ -66,12 +66,12 @@ const commonNode = props =>
           <div className="footer-left">
             <ul className="nav">
               <li>
-                <Link to="/">
+                <Link to="/customer">
                   <span>旺彩彩民版</span>
                 </Link>
               </li>
               <li>
-                <Link to="/">
+                <Link to="/owner">
                   <span>旺彩店主版</span>
                 </Link>
               </li>
