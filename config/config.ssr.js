@@ -23,6 +23,20 @@ module.exports = {
       Component: () => (require('@/page/experts').default),
       controller: 'page',
       handler: 'index'
+    },
+    {
+      path: '/about',
+      exact: true,
+      Component: () => (require('@/page/about').default),
+      controller: 'page',
+      handler: 'index'
+    },
+    {
+      path: '/trend',
+      exact: true,
+      Component: () => (require('@/page/trend').default),
+      controller: 'page',
+      handler: 'index'
     }
   ],
   baseDir: resolvePath('../'),
