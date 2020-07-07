@@ -37,6 +37,13 @@ module.exports = {
       Component: () => (require('@/page/trend').default),
       controller: 'page',
       handler: 'index'
+    },
+    {
+      path: '/lottery/:type',
+      exact: true,
+      Component: () => (require('@/page/lottery').default),
+      controller: 'page',
+      handler: 'index'
     }
   ],
   baseDir: resolvePath('../'),
