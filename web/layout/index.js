@@ -36,7 +36,7 @@ const commonNode = props =>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/">
+                  <Link to="/experts/shuangseqiu">
                     <span>专家预测</span>
                   </Link>
                 </li>
@@ -107,8 +107,8 @@ const commonNode = props =>
       </div>
     </>
   ) : (
-    ''
-  );
+      ''
+    );
 
 const Layout = props => {
   if (__isBrowser__) {

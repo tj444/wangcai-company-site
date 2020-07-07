@@ -16,6 +16,13 @@ module.exports = {
       Component: () => (require('@/page/news').default),
       controller: 'page',
       handler: 'index'
+    },
+    {
+      path: '/experts/:lottery_key',
+      exact: true,
+      Component: () => (require('@/page/experts').default),
+      controller: 'page',
+      handler: 'index'
     }
   ],
   baseDir: resolvePath('../'),
