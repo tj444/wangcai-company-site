@@ -31,7 +31,7 @@ const commonNode = props =>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/">
+                  <Link to="/trend">
                     <span>图表走势</span>
                   </Link>
                 </li>
@@ -46,7 +46,7 @@ const commonNode = props =>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/">
+                  <Link to="/about">
                     <span>关于</span>
                   </Link>
                 </li>
@@ -81,7 +81,7 @@ const commonNode = props =>
                 </Link>
               </li>
               <li>
-                <Link to="/">
+                <Link to="/about">
                   <span>关于我们</span>
                 </Link>
               </li>
