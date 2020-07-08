@@ -36,7 +36,7 @@ const commonNode = props =>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/experts/shuangseqiu">
+                  <Link to="#">
                     <span>专家预测</span>
                   </Link>
                 </li>
