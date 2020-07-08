@@ -51,15 +51,15 @@ function Trend(props) {
               </div>
             ))}
           </div>
-          <div>
+          {ifreamSrc&&<div>
             <iframe 
-              
+              scrolling="yes"
               id="myIframe"
-             src={ifreamSrc}
-              scrolling="no" 
+             src={ifreamSrc+"&width=960"}
+             
               frameBorder="0"
               />
-          </div>
+          </div>}
       </div>
   </div>);
 }
