@@ -82,6 +82,30 @@ a {
           border-bottom: 4px solid #d72e31;
         }
       }
+      &.select{
+        position: relative;
+        &:hover .selectOptions{
+          display: block;
+        }
+        .selectOptions{
+          background: #E5E5E5;
+          position: absolute;
+          width: 64px;
+          text-align: center;
+          display: none;
+          a{
+              cursor: pointer;
+              text-align: center;
+              display: block ;
+              padding: 10px 0px;
+              border-bottom: 4px solid transparent;
+              &:hover {
+                border-bottom: 4px solid #d72e31;
+              }
+            }
+          }
+        
+      }
     }
   }
 }
@@ -161,3 +185,5 @@ a {
     }
   }
 }
+
+

@@ -30,7 +30,21 @@ module.exports = {
       Component: () => (require('@/page/trend').default),
       controller: 'page',
       handler: 'index'
-    }
+    },
+    {
+      path: '/LotteryEdition',
+      exact: true,
+      Component: () => (require('@/page/lotteryEdition').default),
+      controller: 'page',
+      handler: 'index'
+    },
+    {
+      path: '/shopkeeperVersion',
+      exact: true,
+      Component: () => (require('@/page/shopkeeperVersion').default),
+      controller: 'page',
+      handler: 'index'
+    },
   ],
   baseDir: resolvePath('../'),
   injectCss: [

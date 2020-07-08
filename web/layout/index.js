@@ -40,10 +40,21 @@ const commonNode = props =>
                     <span>专家预测</span>
                   </Link>
                 </li>
-                <li>
+                <li className="select">
                   <Link to="/">
                     <span>产品介绍</span>
                   </Link>
+                  {/* <div className="selectOptions">
+                    <Link to="/LotteryEdition">
+                      <span>彩民版</span>
+                    </Link>
+                    <Link to="/ShopkeeperVersion">
+                     <span>店主版</span>
+                    </Link>
+                   
+                    
+                  </div> */}
+                  
                 </li>
                 <li>
                   <Link to="/about">
@@ -68,12 +79,12 @@ const commonNode = props =>
           <div className="footer-left">
             <ul className="nav">
               <li>
-                <Link to="/customer">
+                <Link to="/LotteryEdition">
                   <span>旺彩彩民版</span>
                 </Link>
               </li>
               <li>
-                <Link to="/owner">
+                <Link to="/shopkeeperVersion">
                   <span>旺彩店主版</span>
                 </Link>
               </li>
