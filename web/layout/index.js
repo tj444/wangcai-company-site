@@ -59,7 +59,9 @@ const commonNode = props =>
             </div>
           </div>
         </div>
-        <div className="content">{props.children}</div>
+        <div className="content">
+          <div className="context-inner">{props.children}</div>
+        </div>
       </div>
       <div className="footer">
         <div className="footer-content">
@@ -107,8 +109,8 @@ const commonNode = props =>
       </div>
     </>
   ) : (
-      ''
-    );
+    ''
+  );
 
 const Layout = props => {
   if (__isBrowser__) {
