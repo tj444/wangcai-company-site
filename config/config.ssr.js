@@ -18,13 +18,6 @@ module.exports = {
       handler: 'index'
     },
     {
-      path: '/experts/:lottery_key',
-      exact: true,
-      Component: () => (require('@/page/experts').default),
-      controller: 'page',
-      handler: 'index'
-    },
-    {
       path: '/about',
       exact: true,
       Component: () => (require('@/page/about').default),
@@ -35,27 +28,6 @@ module.exports = {
       path: '/trend',
       exact: true,
       Component: () => (require('@/page/trend').default),
-      controller: 'page',
-      handler: 'index'
-    },
-    {
-      path: '/lottery/:type',
-      exact: true,
-      Component: () => (require('@/page/lottery').default),
-      controller: 'page',
-      handler: 'index'
-    },
-    {
-      path: '/owner',
-      exact: true,
-      Component: () => (require('@/page/owner').default),
-      controller: 'page',
-      handler: 'index'
-    },
-    {
-      path: '/customer',
-      exact: true,
-      Component: () => (require('@/page/customer').default),
       controller: 'page',
       handler: 'index'
     }
