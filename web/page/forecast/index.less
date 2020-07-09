@@ -1,0 +1,48 @@
+.forecast-box {
+    width: 1200px;
+    margin: 30px auto;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    .leftBox{
+        border: 1px solid #E5E5E5;
+        width: 210px;
+       
+        height: 320px;
+        .left_box_title{
+              font-weight: bolder;
+            padding-left: 40px;
+            background: #E5E5E5;
+            height: 50px;
+            line-height: 50px;
+            text-align: left;
+            
+        }
+        ul{
+          
+            li{
+                cursor: pointer;
+                font-size: 16px;
+                margin:30px 0 ;
+                margin-left: 40px;
+               
+                text-align: left;
+                &.active{
+                    color: #027BEC;
+                }
+            }
+        }
+    }
+    .right_box{
+        width: 975px;
+       display: flex;
+       flex-wrap: wrap;
+        
+       &>div{
+        width: 47%;
+        margin-left: 2%;
+        margin-bottom: 30px;
+        border: 1px solid #E5E5E5;
+       }
+    }
+}

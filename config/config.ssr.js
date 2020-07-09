@@ -45,6 +45,13 @@ module.exports = {
       controller: 'page',
       handler: 'index'
     },
+    {
+      path: '/forecast',
+      exact: true,
+      Component: () => (require('@/page/forecast').default),
+      controller: 'page',
+      handler: 'index'
+    },
   ],
   baseDir: resolvePath('../'),
   injectCss: [

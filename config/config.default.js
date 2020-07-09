@@ -5,5 +5,6 @@ module.exports = {
   static: {
     prefix: '/',
     dir: [resolvePath('../dist'), resolvePath('../app/public')]
-  }
+  },
+
 }

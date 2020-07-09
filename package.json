@@ -5,6 +5,7 @@
     "axios": "^0.19.2",
     "dva": "^2.4.1",
     "egg": "^2.21.0",
+    "egg-http-proxy": "^1.0.0",
     "egg-scripts": "^2.11.0",
     "egg-static": "^2.2.0",
     "lost": "^8.3.1",
