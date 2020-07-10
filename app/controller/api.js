@@ -26,7 +26,7 @@ class PageController extends Controller {
       // Page为webpack打包的chunkName，项目默认的entry为Page
       ctx.type = 'text/json';
       ctx.status = 200;
-      console.log(ctx.query)
+    
       ctx.body = (await this.ctx.curl("https://s0.icaipiao123.com/api/v2/rank/landing",{
         method: 'get',
         headers:{//自定义header
@@ -46,7 +46,7 @@ class PageController extends Controller {
       // Page为webpack打包的chunkName，项目默认的entry为Page
       ctx.type = 'text/json';
       ctx.status = 200;
-      console.log(ctx.query.type)
+ 
       ctx.body = (await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.type}?encrypt=false`,{
         method: 'get',
         headers:{//自定义header

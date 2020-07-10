@@ -4,7 +4,7 @@ import './index.less';
 
 
 function ForecastItem(props) {
-  console.log(props.itemInfo)
+
  
   useEffect(props=>{
    

@@ -46,7 +46,7 @@ module.exports = {
       handler: 'index'
     },
     {
-      path: '/forecast',
+      path: '/forecast/:typeId',
       exact: true,
       Component: () => (require('@/page/forecast').default),
       controller: 'page',
