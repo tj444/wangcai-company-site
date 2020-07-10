@@ -14,4 +14,74 @@
             margin-right: 15px
         }
     }
+    .peopleGroup{
+        padding: 0px 24px;
+        .peopleItem{
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+            height: 70px;
+            margin: 15px 0;
+            &>div{
+                &:nth-child(1){
+                    
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    div{
+                        
+                    }
+                    img{
+                        width: 26px;
+                        height: 34px;
+                    }
+                    .peopleItemNumber{
+                        background: #BABABD;
+                        color: #ffffff;
+                        border-radius: 15px;
+                        height: 24px;
+                        width: 24px;
+                        text-align: center;
+                        line-height: 26px;
+                    }
+                }
+                &:nth-child(2){
+                    width: 290px;
+                    display: flex;
+                    align-items: center;
+                    .userIcon{
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 35px;
+                        margin-right: 16px;
+                        border: 0;
+                    }
+                    .user_Info{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        height: 45px;
+                        
+                        .UserName{
+                            color: #333;
+                            font-size: 18px;
+                        }
+                        .UserGet{
+                            color: #999999;
+                            font-size: 14px;
+                        }
+                    }
+                    
+                }
+                &:nth-child(3){
+                    
+                    color: #E64E3B;
+                    font-size: 20px;
+                    line-height: 70px;
+                }
+            }
+          
+        }
+    }
+    
 }
