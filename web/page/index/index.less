@@ -1,15 +1,123 @@
-
 .page_body {
     margin-top: 10px;
 }
 
-.banner{
+.bannerContent{
+    position: relative;
     width: 100%;
-    height: 450px;
-    margin-bottom: 60px;
-
-    img{
-        width:100%;
-        height: 450px;
+    display: flex;
+    .banner1{
+        width: 100%;
+        position: absolute;
+        animation: translateIn 3s;
+        animation-iteration-count: infinite;
+    }
+    @keyframes translateIn {
+        50% {
+            margin-left:-2000,
+        }
+        100%{
+            margin-left:0,
+        }
     }
 }
+.tempBanner{
+    background: url('../../assets/images/bg.png') no-repeat;
+    width: 100%;
+    height: 400px;
+}
+
+.banner_about {
+    position: relative;
+    height: 360px;
+    background: url(../../assets/images/banner-about.jpg) center;
+
+    .banner_text {
+        width: 410px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 175px;
+        color: white;
+        line-height: 1.5;
+
+        p {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+.mainBody {
+    margin: 0 20%;
+
+    .right_box_title {
+        border-bottom: 1px solid #E64E3B;
+
+        div {
+            height: 46px;
+            line-height: 46px;
+            color: #fff;
+            width: 200px;
+            text-align: center;
+            background: #E64E3B;
+            position: relative;
+
+            &::after {
+                content: "";
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-bottom: 46px solid #E64E3B;
+                border-right: 46px solid transparent;
+                right: -46px;
+            }
+        }
+    }
+
+    .all_lottery {
+        border: 1px solid #E5E5E5;
+        border-top: 0;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 60px;
+    }
+
+    .lotteryItem {
+        background-color: #F7F7F7;
+        width: 40%;
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .info_title {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #E64E3B;
+        padding-bottom: 20px;
+
+        .selectedInfo {
+            color: #333333;
+            font-size: 24px;
+            margin-left: 0;
+        }
+
+        p {
+            color: #999999;
+            font-size: 18px;
+            margin-left: 40px;
+        }
+    }
+
+    .infoItem {
+        width: 40%;
+        padding: 20px;
+        margin: 10px;
+        border: 1px solid #E6E6E6;
+    }
+
+}
+
+
+
+.banner1 {}
