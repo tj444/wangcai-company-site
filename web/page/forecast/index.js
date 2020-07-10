@@ -7,7 +7,7 @@ import { getDate } from 'date-fns';
 import ForecastItem from "./component/ForecastItem";
 
 function Forecast(props) {
-console.log(props)
+
   // 彩票类型lotteryType
   const[lotteryTypeList , setLotteryTypeList]= useState([
     {name:"双色球",value:"shuangseqiu"},
@@ -18,17 +18,14 @@ console.log(props)
 
   ])
 
- let typeId=1
-  // const typeId =props.match.params.typeId
-  // lotteryTypeList.forEach((item,index)=>{
-  //   if(item.value==typeId){
-  //     setLotteryTypeList(index)
-  //   }
-  // })
+ let typeId="shuangseqiu"
+
   // 选中值
   const[lotteryCheck , setLotteryCheck]= useState(typeId)
   // 列表值
   const[itemList , setitemList]= useState(props.itemList)
+
+  
   
   useEffect(props=>{
     
@@ -57,9 +54,10 @@ console.log(props)
 }
 
 Forecast.getInitialProps = async ctx => {
+
   const typeId = __isBrowser__ ? ctx.match.params.typeId : ctx.params.typeId;
   // console.log(typeId)
-  await ctx.store.dispatch({ type: 'forecast/getData', payload: { id: typeId,ctx:ctx } });
+  await ctx.store.dispatch({type:'forecast/getData', payload: { id: typeId,ctx:ctx,isBrowser:__isBrowser__ }});
 };
 
 const mapStateToProps = state => ({
