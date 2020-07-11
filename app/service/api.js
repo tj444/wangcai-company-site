@@ -13,8 +13,8 @@ class ApiService extends Service {
     })).res.data;
    return data;
   }
-  async forecast(){
-    let a = (await this.ctx.curl("https://s0.icaipiao123.com/api/v2/rank/landing?lottery_key=shuangseqiu&encrypt=false",{
+  async forecast(id){
+    let a = (await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/landing?lottery_key=${id}&encrypt=false`,{
       method: 'get',
       headers:{//自定义header
         "User-Agent": "xWangcai Browser",
@@ -23,10 +23,10 @@ class ApiService extends Service {
     })).res.data
    return a
   }
-  async forecastList() {
+  async forecastList(id) {
     const { ctx } = this;
   
-    let b  = (await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/shuangseqiu?encrypt=false`,{
+    let b  = (await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${id}?encrypt=false`,{
         method: 'get',
         headers:{//自定义header
           "User-Agent": "xWangcai Browser",
