@@ -2,3 +2,4 @@
 /logs
 /run
 /dist
+/package-lock.json

@@ -41,7 +41,7 @@ const commonNode = props =>
                   </Link>
                 </li>
                 <li className="select">
-                  <Link to="/">
+                  <Link to="#">
                     <span>产品介绍</span>
                   </Link>
                   <div className="selectOptions">
@@ -51,10 +51,10 @@ const commonNode = props =>
                     <Link to="/shopkeeperVersion">
                      <span>旺彩店主版</span>
                     </Link>
-                   
-                    
+
+
                   </div>
-                  
+
                 </li>
                 <li>
                   <Link to="/about">

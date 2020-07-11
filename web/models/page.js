@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 const getLottery  = async() =>{
@@ -78,8 +77,7 @@ export default {
     tagList:[],
   },
   reducers: {
-    init (state, { payload }) {
-      console.log(payload,'@@@init')
+    init(state, { payload }) {
       return {
         ...state,
         ...payload,

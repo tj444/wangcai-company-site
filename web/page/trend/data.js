@@ -58,14 +58,14 @@ export default {
       {name:"百位走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=pailie3&graph=BaiWeiZouShi"},
       {name:"十位走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=pailie3&graph=ShiWeiZouShi"},
       {name:"个位走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=pailie3&graph=GeWeiZouShi"},
-     
+
     ],
     "七乐彩":[
       {name:"红球走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=qilecai&graph=HongQiuZouShi"},
       {name:"三分区",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=qilecai&graph=SanQuZouShi"},
       {name:"五分区",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=qilecai&graph=WuQuZouShi"},
       {name:"遗漏分层",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=qilecai&graph=YiLouFenCeng"},
-      {name:"红尾走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=qilecai&graph=HongWeiZoushi"}, 
+      {name:"红尾走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=qilecai&graph=HongWeiZoushi"},
     ],
     "排列五":[
       {name:"红球走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=pailie5&graph=HongQiuZouShi"},
@@ -88,5 +88,5 @@ export default {
       {name:"前五走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=n7xingcai&graph=QianWuZouShi"},
       {name:"前六走势",link:"https://zst.jiedaimarket.cn/graph.html?lotteryKey=n7xingcai&graph=QianLiuZouShi"},
     ]
-    
+
 }

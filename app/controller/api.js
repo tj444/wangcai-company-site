@@ -1,6 +1,6 @@
 const Controller = require('egg').Controller;
 
-class PageController extends Controller {
+class ApiController extends Controller {
   async index() {
     const { ctx } = this;
     try {
@@ -41,19 +41,20 @@ class PageController extends Controller {
   async forecast() {
     const { ctx } = this;
     try {
-      // Page为webpack打包的chunkName，项目默认的entry为Page
       ctx.type = 'text/json';
       ctx.status = 200;
-    
-      ctx.body = (await this.ctx.curl("https://s0.icaipiao123.com/api/v2/rank/landing",{
-        method: 'get',
-        headers:{//自定义header
-          "User-Agent": "xWangcai Browser",
-        },
-        data:ctx.query,
-        dataType: 'json'
-      })).res.data
-      
+
+      ctx.body = (
+        await this.ctx.curl('https://s0.icaipiao123.com/api/v2/rank/landing', {
+          method: 'get',
+          headers: {
+            //自定义header
+            'User-Agent': 'xWangcai Browser',
+          },
+          data: ctx.query,
+          dataType: 'json',
+        })
+      ).res.data;
     } catch (error) {
       ctx.logger.error(error);
     }
@@ -61,22 +62,22 @@ class PageController extends Controller {
   async forecastList() {
     const { ctx } = this;
     try {
-      // Page为webpack打包的chunkName，项目默认的entry为Page
       ctx.type = 'text/json';
       ctx.status = 200;
- 
-      ctx.body = (await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.type}?encrypt=false`,{
-        method: 'get',
-        headers:{//自定义header
-          "User-Agent": "xWangcai Browser",
-        },
-        dataType: 'json'
-      })).res.data
-      
+      ctx.body = (
+        await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.lottery_key}?encrypt=false`, {
+          method: 'get',
+          headers: {
+            //自定义header
+            'User-Agent': 'xWangcai Browser',
+          },
+          dataType: 'json',
+        })
+      ).res.data;
     } catch (error) {
       ctx.logger.error(error);
     }
   }
 }
 
-module.exports = PageController;
+module.exports = ApiController;
