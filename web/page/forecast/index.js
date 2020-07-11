@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'dva';
 import axios from 'axios';
 import './index.less';
@@ -9,7 +9,9 @@ import ForecastItem from './component/ForecastItem';
 function Forecast(props) {
   // 列表值
   const { itemList, typeList, typeId } = props;
-  // useEffect(props => {}, []);
+  useEffect(v => {
+      console.log(props)
+  }, []);
   return (
     <div className="forecast-box">
       <div className="leftBox">
@@ -17,9 +19,9 @@ function Forecast(props) {
         <ul>
           {typeList.map((item, index) => (
             <li key={index} className={item.value == typeId ? 'active' : ''}>
-              <a href={`/forecast/${item.value}`}>
+              <NavLink to={`/forecast/${item.value}`}>
                 <span> {item.name}</span>
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
