@@ -6,12 +6,11 @@ import './index.less';
 import { getDate } from 'date-fns';
 import ForecastItem from './component/ForecastItem';
 
-function Forecast(props) {
+function Forecast(props, props2) {
   // 列表值
   const { itemList, typeList, typeId } = props;
-  useEffect(v => {
-      console.log(props)
-  }, []);
+  useEffect(() => {}, []);
+
   return (
     <div className="forecast-box">
       <div className="leftBox">
@@ -19,9 +18,9 @@ function Forecast(props) {
         <ul>
           {typeList.map((item, index) => (
             <li key={index} className={item.value == typeId ? 'active' : ''}>
-              <NavLink to={`/forecast/${item.value}`}>
+              <a href={`/forecast/${item.value}`}>
                 <span> {item.name}</span>
-              </NavLink>
+              </a>
             </li>
           ))}
         </ul>
