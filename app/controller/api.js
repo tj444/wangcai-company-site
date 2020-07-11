@@ -47,9 +47,8 @@ class ApiController extends Controller {
     try {
       ctx.type = 'text/json';
       ctx.status = 200;
-
       ctx.body = (
-        await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.type}?encrypt=false`, {
+        await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.lottery_key}?encrypt=false`, {
           method: 'get',
           headers: {
             //自定义header
