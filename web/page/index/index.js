@@ -39,7 +39,7 @@ const InfoItem = () =>{
 
 function Page(props) {
   props.dispatch({ type: 'page/getData' }); //本地直接调用
-  console.log(props)
+
 
   return (
     <div className="page_body">
