@@ -1,7 +1,7 @@
 class AppBootHook {
-  constructor (app) {
-    this.app = app
+  constructor(app) {
+    this.app = app;
   }
 }
 
-module.exports = AppBootHook
+module.exports = AppBootHook;

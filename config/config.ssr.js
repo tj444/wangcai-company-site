@@ -1,4 +1,4 @@
-const resolvePath = (path) => require('path').resolve(__dirname, path)
+const resolvePath = path => require('path').resolve(__dirname, path);
 
 module.exports = {
   type: 'ssr', // 指定运行类型可设置为csr切换为客户端渲染
@@ -6,63 +6,68 @@ module.exports = {
     {
       path: '/',
       exact: true,
-      Component: () => (require('@/page/index').default), // 这里使用一个function包裹为了让它延迟require
+      Component: () => require('@/page/index').default, // 这里使用一个function包裹为了让它延迟require
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
     },
     {
       path: '/news/:id',
       exact: true,
-      Component: () => (require('@/page/news').default),
+      Component: () => require('@/page/news').default,
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
     },
     {
       path: '/about',
       exact: true,
-      Component: () => (require('@/page/about').default),
+      Component: () => require('@/page/about').default,
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
     },
     {
       path: '/trend',
       exact: true,
-      Component: () => (require('@/page/trend').default),
+      Component: () => require('@/page/trend').default,
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
     },
     {
       path: '/LotteryEdition',
       exact: true,
-      Component: () => (require('@/page/lotteryEdition').default),
+      Component: () => require('@/page/lotteryEdition').default,
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
     },
     {
       path: '/shopkeeperVersion',
       exact: true,
-      Component: () => (require('@/page/shopkeeperVersion').default),
+      Component: () => require('@/page/shopkeeperVersion').default,
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
+    },
+    {
+      path: '/forecast',
+      exact: true,
+      Component: () => require('@/page/forecast').default,
+      controller: 'page',
+      handler: 'index',
     },
     {
       path: '/forecast/:typeId',
       exact: true,
-      Component: () => (require('@/page/forecast').default),
+      Component: () => require('@/page/forecast').default,
       controller: 'page',
-      handler: 'index'
+      handler: 'index',
     },
   ],
   baseDir: resolvePath('../'),
-  injectCss: [
-    `/static/css/Page.chunk.css`
-  ], // 客户端需要加载的静态样式表
+  injectCss: [`/static/css/Page.chunk.css`], // 客户端需要加载的静态样式表
   injectScript: [
     `<script src='/static/js/runtime~Page.js'></script>`,
     `<script src='/static/js/vendor.chunk.js'></script>`,
-    `<script src='/static/js/Page.chunk.js'></script>`
+    `<script src='/static/js/Page.chunk.js'></script>`,
   ], // 客户端需要加载的静态资源文件表
   serverJs: resolvePath(`../dist/Page.server.js`),
   layout: resolvePath(`../dist/Layout.server.js`),
-  useCDN: false
-}
+  useCDN: false,
+};

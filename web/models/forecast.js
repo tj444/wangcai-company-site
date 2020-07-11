@@ -1,77 +1,37 @@
-import axios from "axios"
-const getData = async ({ id,ctx,isBrowser }) => {
-    if(isBrowser){
-        let axios1 = axios.get("/api/getForecastData",{
-            params:{
-                lottery_key:id,
-                encrypt:false
-            }
-        })
-        let axios2 =axios.get("/api/getForecastData/getItem",{
-            params:{
-                type:id,
-        
-            }
-        })
-        let c = await Promise.all([axios1,axios2])
-        let res1 = c[0].data.data
-        let res2 = c[1].data
-        var newObj =  {};
-        res2.category.forEach(item=>{
-            newObj[item.id] = item.name
-        })
-        
-        res1.forEach(item=>{
-            item.category = newObj[item.category]
-        })
-        return Promise.resolve({
-            itemList:res1
-        })
-    }else{
-        let a = ctx.service.api.forecast(id)
-        let b = ctx.service.api.forecastList(id)
-        let res1=[]
-        let res2=[]
-        await  Promise.all([a,b]).then(res=>{
-            res1 = res[0].data
-            res2 = res[1]
-            
-            var newObj =  {};
-            res2.category.forEach(item=>{
-                newObj[item.id] = item.name
-            })
-            
-            res1.forEach(item=>{
-                item.category = newObj[item.category]
-            })
-        })
-        return Promise.resolve({
-            itemList:res1
-        })
-    }
-    
-   
-}
+import axios from 'axios';
+import { getForecast } from '@/services/forecast';
 export default {
-    namespace: 'forecast',
-    state: {
-        itemList: []
+  namespace: 'forecast',
+  state: {
+    itemList: [],
+    typeList: [
+      { name: '双色球', value: 'shuangseqiu' },
+      { name: '大乐透', value: 'daletou' },
+      { name: '福彩3d', value: 'fucai3d' },
+      { name: '排列三', value: 'pailie3' },
+      { name: '七乐彩', value: 'qilecai' },
+    ],
+    typeId: 'shuangseqiu',
+  },
+  reducers: {
+    init(state, { payload }) {
+      return {
+        ...state,
+        itemList: payload,
+      };
     },
-    reducers: {
-        init (state, { payload }) {
-            return {
-                ...state,
-                itemList: payload.itemList
-            }
-        }
+    setTypeId(state, { payload }) {
+      return {
+        ...state,
+        typeId: payload.id,
+      };
     },
-    effects: {
-        * getData ({ payload }, { call, put }) {
-        const data = yield call(getData, payload)
-        yield put({
-            type: 'init',
-            payload: data
-        })
-        }
-    }
-}
+  },
+  effects: {
+    *getData({ payload }, { call, put }) {
+      yield put({ type: 'setTypeId', payload: payload });
+      const data = yield call(getForecast, payload);
+      yield put({ type: 'init', payload: data });
+    },
+  },
+};

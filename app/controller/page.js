@@ -14,6 +14,7 @@ class PageController extends Controller {
       ctx.body = stream;
     } catch (error) {
       ctx.logger.error(`Page Controller renderToStream Error`, error);
+      ctx.status = 500;
     }
   }
 }

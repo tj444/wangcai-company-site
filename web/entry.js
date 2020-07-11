@@ -49,9 +49,7 @@ const clientRender = () => {
     </BrowserRouter>
   ));
   const DvaApp = app.start();
-
   ReactDOM[window.__USE_SSR__ ? 'hydrate' : 'render'](<DvaApp />, document.getElementById('app'));
-
   if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept();
   }
