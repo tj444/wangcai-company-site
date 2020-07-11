@@ -1,3 +1,25 @@
+
+
+.flex1{
+    flex:1;
+}
+
+.flexAlignCenter{
+    display: flex;
+    align-items: center;
+}
+
+.flexAllCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flexBetween{
+    .flexAlignCenter;
+    justify-content: space-between;
+}
+
 .page_body {
     margin-top: 10px;
 }
@@ -82,7 +104,7 @@
 }
 
 .mainBody {
-    margin: 0 20%;
+    margin: 0 15%;
 
     .right_box_title {
         border-bottom: 1px solid #E64E3B;
@@ -121,37 +143,106 @@
 
     .lotteryItem {
         background-color: #F7F7F7;
-        width: 40%;
-        padding: 20px;
+        width: 45%;
+        padding: 12px;
         margin: 10px;
+        .lotteryBaseInfo{
+            .flexAlignCenter;
+            margin-bottom: 15px;
+
+            .detail{
+                font-size: 14px;
+                color: #027BEC;
+                cursor: pointer;
+            }
+
+            .flexBetween1{
+                .flexBetween;
+                flex: 1;
+            }
+
+            img{
+                width: 40px;
+                height: 40px;
+                margin-right: 15px;
+            }
+        }
+
+        .resultList{
+            .flexAlignCenter;
+            flex-wrap: wrap;
+            padding: 10px 40px;
+            .redBall{
+                .flexAllCenter;
+                margin: 5px;
+                width: 34px;
+                height: 34px;
+                background-color: #E64E3B;
+                border-radius: 20px;
+                font-size: 18px;
+                color: white;
+                font-weight: bold;
+            }
+        }
+        .priceInfo {
+            .flexAlignCenter;
+            font-size: 14px;
+        }
     }
 
     .info_title {
-        display: flex;
-        align-items: center;
+        .flexBetween;
         border-bottom: 1px solid #E64E3B;
-        padding-bottom: 20px;
+        padding: 0 50% 20px 0;
 
         .selectedInfo {
             color: #333333;
-            font-size: 24px;
-            margin-left: 0;
+            font-size: 20px;
+            font-weight: 500;
         }
 
         p {
             color: #999999;
-            font-size: 18px;
-            margin-left: 40px;
+            font-size: 16px;
+            cursor: pointer;
         }
     }
 
     .infoItem {
-        width: 40%;
-        padding: 20px;
+        .flexAlignCenter;
+        width: 45%;
+        padding: 10px;
         margin: 10px;
         border: 1px solid #E6E6E6;
+        font-size: 12px;
+
+        .title{
+            font-size: 18px;
+            color: #191919;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+        .descript{
+            color: #313131;
+            margin-top: 10px;
+        }
+        .readMore{
+            color: #E64E3B;
+            margin-top: 10px;
+        }
+        .from{
+            color: #999999;
+            margin-top: 10px;
+        }
+
+        img{
+            width: 130px;
+            height: 140px;
+            margin-right: 15px;
+        }
+        div{
+            text-align: left;
+        }
     }
 
 }
-
-
