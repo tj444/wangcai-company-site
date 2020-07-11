@@ -13,9 +13,8 @@ class PageController extends Controller {
         headers:{//自定义header
           "User-Agent": "xWangcai Browser",
         },
-        // data:ctx.query,
-        // dataType: 'json'
-      })).res.data
+        dataType: 'json'
+      })).res.data;
     } catch (error) {
       ctx.logger.error(error);
     }

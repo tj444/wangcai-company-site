@@ -3,28 +3,15 @@
 const { Service } = require('egg')
 
 class ApiService extends Service {
-  index () {
-    return {
-      news: [
-        {
-          id: '1',
-          title: 'Racket v7.3 Release Notes'
-        },
-        {
-          id: '2',
-          title: 'Free Dropbox Accounts Now Only Sync to Three Devices'
-        },
-        { id: '3',
-          title: 'Voynich Manuscript Decoded by Bristol Academic'
-        },
-        { id: '4',
-          title: 'Burger King to Deliver Whoppers to LA Drivers Stuck in Traffic'
-        },
-        { id: '5',
-          title: 'How much do YouTube celebrities charge to advertise your product? '
-        }
-      ]
-    }
+  async index () {
+    let data = (await this.ctx.curl("https://api.icaipiao123.com/api/v6/lotterynums/latest/all",{
+      method: 'get',
+      headers:{//自定义header
+        "User-Agent": "xWangcai Browser",
+      },
+      dataType: 'json'
+    })).res.data;
+   return data;
   }
   async forecast(){
     let a = (await this.ctx.curl("https://s0.icaipiao123.com/api/v2/rank/landing?lottery_key=shuangseqiu&encrypt=false",{

@@ -38,16 +38,17 @@ const InfoItem = () =>{
 }
 
 function Page(props) {
-  const {news} = props;
-  console.log(props,'@props')
+  props.dispatch({ type: 'page/getData' }); //本地直接调用
+  console.log(props)
+
   return (
     <div className="page_body">
-
       <div className="bannerContent">
-        {/* <div className="banner1">banner1</div>
-        <div className="banner1">banner2</div> */}
-        <div className='tempBanner'>
+        <div className='banner1'>
           <img alt='' src={require('../../assets/images/banner02.png')} />
+        </div>
+        <div className='banner2'>
+          <img alt='' src={require('../../assets/images/sbanner1.png')} />
         </div>
       </div>
 
@@ -88,19 +89,14 @@ function Page(props) {
 }
 
 Page.getInitialProps = async ({ store }) => {
-  // const getAllLottery = () =>{
-  //   new Promise(() =>{
-  //     axios.get("/api/getIndexData");
-  //   }).then(item =>{
-  //     console.log(item,'@@@');
-  //   })
-  // }
-  // getAllLottery();
   await store.dispatch({ type: 'page/getData' });
 };
 
-const mapStateToProps = state => ({
-  news: state.page.news,
+const mapStateToProps = state => (() =>{
+  console.log(state);
+  return{
+    page: state.page,
+  }
 });
 
 export default connect(mapStateToProps)(Page);
