@@ -1,7 +1,11 @@
 import React,{useState} from 'react';
 import { connect } from 'dva';
+import { Link } from 'react-router-dom';
+import QRCode from 'qrcode.react';
 import moment from 'moment';
 import './index.less';
+
+const qrcode='https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
 
 const baseList = [
   {name:'双色球',img:require('../../assets/images/双色球.png')},
@@ -32,7 +36,7 @@ const LotteryItem = (props) =>{
   const secondPrice = detail[1] && detail[1].count;
   const thirdPrice = detail[2] && detail[2].count;
   return(
-    <div className="lotteryItem">
+    <Link className="lotteryItem" to='/detail' >
       <div className="lotteryBaseInfo">
         <img alt='' src={img} />
         <div style={{flex:1}}>
@@ -65,14 +69,14 @@ const LotteryItem = (props) =>{
         </p>
         <p>{balance}</p>
       </div>
-    </div>
+    </Link>
   )
 }
 
 const InfoItem = (props) =>{
-  const {images=[],title=''} = props;
+  const {images=[],title='',setMask} = props;
   return(
-    <div className="infoItem">
+    <div className="infoItem" onClick={() =>setMask(true)}>
       <img alt='' src={images[0] ? images[0]:'http://p.wangcaissq.com/avatar/200710/2468774b04a1961190276117b1bc5d5edafa48ba.jpg'} />
       <div>
         <p className='title'>{title}</p>
@@ -89,13 +93,14 @@ function Page(props) {
   const {quanguo=[]} = allLottery;
 
   const [selectTag,setSelectTag]  = useState(newInfo);
+  const [mask,setMask]  = useState(false);
   
   const onChooseTags = (tags) =>{
     setSelectTag(tags);
     props.dispatch({type:'page/getTags',payload:{tags,pagelen:10,page:1}});
   }
 
-  let lotteryList = [];
+  let lotteryList = [1,2,3];
   quanguo.map((v) =>{
     const {name=''} = v;
     const data = baseList.find(item =>item.name===name);
@@ -141,12 +146,30 @@ function Page(props) {
             {
               infoTabs.map((v,i) =>{
                 return (
-                  <InfoItem {...v} key={i} />
+                  <InfoItem setMask={setMask} {...v} key={i} />
                 )
               })
             }
           </div>
       </div>
+      {
+        mask && 
+        <div style={{width:'100%',height:'100%'}}>
+          <div className="mask"></div>
+          <div className="downloadContainer">
+            <div className="downloadBg">
+              <div className="downloadDiv">
+                <QRCode
+                  value={qrcode}// 生成二维码的内容
+                  size={100} // 二维码的大小
+                  fgColor="#000000" // 二维码的颜色
+                />
+              </div>
+            </div>
+            <img onClick={() =>setMask(false)} alt='' src={require('../../assets/images/closeBtn.png')} />
+          </div> 
+        </div>
+      }
     </div>
   );
 }
