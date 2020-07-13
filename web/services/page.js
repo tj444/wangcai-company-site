@@ -11,3 +11,15 @@ export async function getAllLottery() {
     return [];
   }
 }
+
+
+// 获取咨询列表
+export async function getTagList(payload) {
+  try {
+    const res = await axios.get(`${baseUrl}/api/getIndexTag`, { params: { ...payload } });
+    const data = res.data.data;
+    return data;
+  } catch (err) {
+    return [];
+  }
+}

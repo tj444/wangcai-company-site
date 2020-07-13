@@ -1,7 +1,7 @@
 const Controller = require('egg').Controller;
 
 class ApiController extends Controller {
-  async index() {
+  async index() { //所有彩种开奖结果
     const { ctx } = this;
     try {
       // Page为webpack打包的chunkName，项目默认的entry为Page
@@ -19,7 +19,7 @@ class ApiController extends Controller {
       ctx.logger.error(error);
     }
   }
-  async getTag() {
+  async getTag() {  //咨询
     const { ctx } = this;
     try {
       // Page为webpack打包的chunkName，项目默认的entry为Page
@@ -37,7 +37,6 @@ class ApiController extends Controller {
       ctx.logger.error(error);
     }
   }
-
   async forecast() {
     const { ctx } = this;
     try {

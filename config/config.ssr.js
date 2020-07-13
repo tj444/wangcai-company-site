@@ -4,7 +4,14 @@ module.exports = {
   type: 'ssr', // 指定运行类型可设置为csr切换为客户端渲染
   routes: [
     {
-      path: '/',
+      path: '/home',
+      exact: true,
+      Component: () => require('@/page/index').default, // 这里使用一个function包裹为了让它延迟require
+      controller: 'page',
+      handler: 'index',
+    },
+    {
+      path: '/home/:tags',
       exact: true,
       Component: () => require('@/page/index').default, // 这里使用一个function包裹为了让它延迟require
       controller: 'page',
@@ -12,6 +19,13 @@ module.exports = {
     },
     {
       path: '/detail',
+      exact: true,
+      Component: () => require('@/page/detail').default,
+      controller: 'page',
+      handler: 'index',
+    },
+    {
+      path: '/detail/:typeId',
       exact: true,
       Component: () => require('@/page/detail').default,
       controller: 'page',

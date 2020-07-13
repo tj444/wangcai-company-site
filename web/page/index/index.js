@@ -17,10 +17,10 @@ const baseList = [
   { name: '七星彩', img: require('../../assets/images/七星彩.png') },
 ];
 
-const newInfo = '新闻资讯,中奖故事,自编新闻';
+const defaultTag = '新闻资讯,中奖故事,自编新闻';
 
 const infoTabs = [
-  { title: '最新咨询', value: newInfo },
+  { title: '最新咨询', value: defaultTag },
   { title: '双色球', value: '双色球' },
   { title: '大乐透', value: '大乐透' },
   { title: '3D', value: '福彩3D' },
@@ -43,6 +43,8 @@ const LotteryItem = props => {
   const firstPrice = detail[0] && detail[0].count;
   const secondPrice = detail[1] && detail[1].count;
   const thirdPrice = detail[2] && detail[2].count;
+  const oneBlue = name === "双色球" || name === "七乐彩";
+  const twoBlue = name === "大乐透";
   return (
     <Link className="lotteryItem" to="/detail">
       <div className="lotteryBaseInfo">
@@ -62,69 +64,79 @@ const LotteryItem = props => {
       </div>
       <div className="resultList">
         {resultList.map((v, i) => {
+          const last = i === resultList.length-1;
+          const sLast = i === resultList.length-2;
+          let className = 'redBall';
+          if( oneBlue && last ) className = 'blueBall';
+          if( twoBlue && (last || sLast) ) className = 'blueBall';
           return (
-            <div className={'redBall'} key={i}>
+            <div className={className} key={i}>
               {v}
             </div>
           );
         })}
       </div>
-      <div className="priceInfo" style={{ padding: '10px 0 0', color: '#585858' }}>
-        <p style={{ color: '#333333', fontWeight: 500 }}>中奖详情：</p>
-        <p>
-          一等奖：<span style={{ color: '#ED0004' }}>{firstPrice}</span>
-        </p>
-        <p style={{ margin: '0 30px' }}>
-          二等奖：<span style={{ color: '#ED0004' }}>{secondPrice}</span>
-        </p>
-        <p>
-          三等奖：<span style={{ color: '#ED0004' }}>{thirdPrice}</span>
-        </p>
-      </div>
-      <div className="priceInfo" style={{ padding: '10px 0' }}>
-        <p style={{ color: '#333333', fontWeight: 500 }}>
-          奖<span style={{ width: '33px', display: 'inline-block' }}></span>池：
+      <div className="flexAlignCenter">
+        <div className="priceInfo">
+          <p>中奖详情：</p>
+          <div className='price_pool'>
+            <p>奖</p>
+            <p>池：</p>
+          </div>
+        </div>
+        <div style={{textAlign:'left'}}>
+          <div className="priceNum">
+            <p>
+              一等奖：<span style={{ color: '#ED0004' }}>{firstPrice}</span>
+            </p>
+            <p style={{ margin: '0 30px' }}>
+              二等奖：<span style={{ color: '#ED0004' }}>{secondPrice}</span>
+            </p>
+            <p>
+              三等奖：<span style={{ color: '#ED0004' }}>{thirdPrice}</span>
+            </p>
+          </div>
           <span style={{ color: '#ED0004' }}>{totalPrice}亿</span>
-        </p>
+        </div>
       </div>
     </Link>
   );
 };
 
 const InfoItem = props => {
-  const { images = [], title = '', setMask } = props;
+  const { images = [], title = '',source='',platform_pub_time=0,description='', setMask } = props;
   return (
     <div className="infoItem" onClick={() => setMask(true)}>
-      <img
-        alt=""
-        src={
-          images[0] ? images[0] : 'http://p.wangcaissq.com/avatar/200710/2468774b04a1961190276117b1bc5d5edafa48ba.jpg'
-        }
-      />
+      <img alt="图片地址错误" src={images[0] || ''} />
       <div>
         <p className="title">{title}</p>
-        <p className="descript">来自浙江杭州的彩民王先生凭借一张“5+7”复式追 票，收获大乐透1925万大奖...</p>
+        <div className="descript">{description}</div>
         <p className="readMore">{'阅读详情 >'}</p>
-        <p className="from">新彩网 06月30日 07:02</p>
+        <p className="from">{source} {moment(moment.unix(platform_pub_time)).format('MM月DD日 HH:mm')}</p>
       </div>
     </div>
   );
 };
 
 function Page(props) {
-  const { lotteries = [] } = props;
-
-  const [selectTag,setSelectTag]  = useState(newInfo);
+  const { lotteries = [], tagList:dataList = [],tags = defaultTag } = props;
+  const [selectTag,setSelectTag]  = useState(tags);
   const [mask,setMask]  = useState(false);
-  useEffect(() => {}, []);
+  const [tagList,setTagList]  = useState(dataList);
+
+  useEffect(() => {
+    setTagList(dataList);
+    console.log('@useEffect',dataList);
+  }, [JSON.stringify(dataList)]);
   
   const onChooseTags = (tags) =>{
+    if(tags === selectTag) return;
+    props.dispatch({ type: 'page/getTags', payload: { tags, pagelen: 20, page: 1 } });
     setSelectTag(tags);
-    props.dispatch({ type: 'page/getTags', payload: { tags, pagelen: 10, page: 1 } });
   };
 
   let lotteryList = [];
-  quanguo.map((v) =>{
+  lotteries.map((v) =>{
     const {name=''} = v;
     const data = baseList.find(item =>item.name===name);
     if(data){
@@ -157,14 +169,14 @@ function Page(props) {
             const { value, title } = v;
             const selected = selectTag === value;
             return (
-              <p onClick={() => onChooseTags(value)} key={i} className={selected ? 'selectedInfo' : ''}>
+              <a href={`/${value}`} onClick={() => onChooseTags(value)} key={i} className={selected ? 'selectedInfo' : ''}>
                 {title}
-              </p>
+              </a>
             );
           })}
         </div>
         <div className="all_lottery">
-          {infoTabs.map((v, i) => {
+          {tagList.map((v, i) => {
             return <InfoItem setMask={setMask} {...v} key={i} />;
           })}
         </div>
@@ -191,14 +203,16 @@ function Page(props) {
 }
 
 Page.getInitialProps = async ctx => {
+  const tagsTitle = __isBrowser__ ? ctx.match.params.tags : ctx.params.tags;
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
-  // await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ctx,isBrowser:__isBrowser__,tags:newInfo,pagelen:20,page:1,mode:'OR'}});
+  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: tagsTitle , pagelen: 20, page: 1, mode: 'OR' }});
 };
 
 const mapStateToProps = state => () => {
   return {
     lotteries: state.page.lotteries,
     tagList: state.page.tagList,
+    tags: state.page.tags,
   };
 };
 

@@ -6,6 +6,7 @@ import moment from 'moment';
 import './index.less';
 
 const qrcode='https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
+const newInfo = '新闻资讯,中奖故事,自编新闻';
 
 const baseList = [
   {name:'双色球',img:require('../../assets/images/双色球.png')},
@@ -17,24 +18,10 @@ const baseList = [
   {name:'七星彩',img:require('../../assets/images/七星彩.png')},
 ];
 
-const newInfo = '新闻资讯,中奖故事,自编新闻';
-
-const infoTabs =[
-  {title:'最新咨询',value:newInfo},
-  {title:'双色球',value:'双色球'},
-  {title:'大乐透',value:'大乐透'},
-  {title:'3D',value:'福彩3D'},
-  {title:'排列3/5',value:'排列3,排列5'},
-  // {title:'七乐彩',value:'七乐彩'},
-];
-
 const LotteryDetail = (props) =>{
   const {name='',img='' ,result='08,17,24,26,27,31,04',open_time=1594300500, balance='', issue='',sales='' ,detail=[]} = props;
   const resultList = result.split(',');
   const totalPrice = Number((balance/100000000).toFixed(2));
-  const firstPrice = detail[0] && detail[0].count;
-  const secondPrice = detail[1] && detail[1].count;
-  const thirdPrice = detail[2] && detail[2].count;
   return (
     <div className="lottery_detail">
       <div className="lottery_issue">
@@ -71,8 +58,7 @@ const LotteryDetail = (props) =>{
             </tr>
           </thead>
           {
-            [{count:1,name:'一等奖'},{count:2,name:'二等奖'}].map((v,i) =>{
-            // detail.length>0 && detail.map((v,i) =>{
+            detail.length>0 && detail.map((v,i) =>{
               const {count='',name=''} = v;
               return(
                 <tr key={i}>
@@ -89,37 +75,46 @@ const LotteryDetail = (props) =>{
 }
 
 const InfoItem = (props) =>{
-  const {images=[],title='',setMask} = props;
-  return(
-    <div className="infoItem" onClick={() =>setMask(true)}>
-      <img alt='' src={images[0] ? images[0]:'http://p.wangcaissq.com/avatar/200710/2468774b04a1961190276117b1bc5d5edafa48ba.jpg'} />
+  const { images = [], title = '',source='',platform_pub_time=0,description='', setMask } = props;
+  return (
+    <div className="infoItem" onClick={() => setMask(true)}>
+      <img alt="图片地址错误" src={images[0] || ''} />
       <div>
-        <p className='title'>{title}</p>
-        <p className='descript'>来自浙江杭州的彩民王先生凭借一张“5+7”复式追 票，收获大乐透1925万大奖...</p>
-        <p className='readMore'>{'阅读详情 >'}</p>
-        <p className='from'>新彩网  06月30日  07:02</p>
+        <p className="title">{title}</p>
+        <div className="descript">{description}</div>
+        <p className="readMore">{'阅读详情 >'}</p>
+        <p className="from">{source} {moment(moment.unix(platform_pub_time)).format('MM月DD日 HH:mm')}</p>
       </div>
     </div>
   )
 }
 
-const PredictionItem = () =>{
+const PredictionItem = (props) =>{
+  const {recent_result='',category='',icon='',master_name='',recent_hit=''} = props;
   return(
     <div className="prediction_item">
-      <p className='title'>蓝球定五</p>
-      <img alt='' src={require('../../assets/images/people.png')} />
-      <p className='name'>蓝色刀刻儿</p>
-      <p className='grade'>近7中5  最近连中3期</p>
+      <p className='title'>{category}</p>
+      <img alt='图片地址错误' src={icon} />
+      <p className='name'>{master_name}</p>
+      <p className='grade'>近{recent_result}  最近连中{recent_hit}期</p>
     </div>
   )
 }
 
 function Detail(props) {
-  const {allLottery={}} = props;
-  const {quanguo=[]} = allLottery;
+  const { lotteries = [], tagList = [],typeId, rankList = [] } = props;
+  
+  let rankFirstList = []; //预测的第一名
+  rankList.map((v) =>{
+    const {data=[],category=''} = v;
+    const first = data.find(item =>item.rank===1);
+    if(first && rankFirstList.length<5){
+      rankFirstList.push({category,...first});
+    }
+  });
 
-  let lotteryList = [...baseList];
-  quanguo.map((v) =>{
+  let lotteryList = [];
+  lotteries.map((v) =>{
     const {name=''} = v;
     const data = baseList.find(item =>item.name===name);
     if(data){
@@ -129,10 +124,12 @@ function Detail(props) {
   const [lotteryInfo,setLotteryInfo]  = useState(lotteryList[0]);
 
   const [mask,setMask]  = useState(false);
+  const [totteryId,setTotteryId] = useState(typeId);
   const [tottery,setLottery] = useState('双色球');
 
   const onSelectTab = (props) =>{
-    const {name} =props;
+    const {key,name} =props;
+    setTotteryId(key);
     setLottery(name);
     setLotteryInfo(props);
   }
@@ -152,11 +149,11 @@ function Detail(props) {
               <div style={{padding:'10px 0'}}>
                 {
                   lotteryList.map((v,i) =>{
-                    const {name} = v;
-                    const selectedTitle = tottery===name;
+                    const { name, key } = v;
+                    const selectedTitle = totteryId === key;
                     return(
                       <div key={i} className={selectedTitle?"selectedTitle":"normalTitle"}  onClick={() =>onSelectTab(v)}>
-                        {name}
+                        <a href={`/detail/${key}`}>{name}</a>
                       </div>
                     )
                   })
@@ -176,7 +173,7 @@ function Detail(props) {
           </div>
           <div className="all_lottery">
             {
-              infoTabs.map((v,i) =>{
+              tagList.map((v,i) =>{
                 return (
                   <InfoItem setMask={setMask} {...v} key={i} />
                 )
@@ -193,7 +190,7 @@ function Detail(props) {
         </div>
         <div className="prediction_list">
           {
-            [1,2,3,4,5,6].map((v,i) =>{
+            rankFirstList.map((v,i) =>{
               return(
                 <PredictionItem key={i} {...v} />
               )
@@ -201,8 +198,7 @@ function Detail(props) {
           }
         </div>
       </div>
-      {
-        mask && 
+      { mask && 
         <div style={{width:'100%',height:'100%'}}>
           <div className="mask"></div>
           <div className="downloadContainer">
@@ -224,13 +220,18 @@ function Detail(props) {
 }
 
 Detail.getInitialProps = async (ctx) => {
-  // await ctx.store.dispatch({ type: 'page/getData' ,payload:{ctx,isBrowser:__isBrowser__}});
-  // await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ctx,isBrowser:__isBrowser__,tags:newInfo,pagelen:20,page:1,mode:'OR'}});
+  const typeId = __isBrowser__ ? ctx.match.params.typeId : ctx.params.typeId;
+  await ctx.store.dispatch({ type: 'page/getData', payload: {} });
+  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: newInfo, pagelen: 20, page: 1, mode: 'OR' }});
+  await ctx.store.dispatch({ type: 'forecast/getData', payload: { id: typeId || 'shuangseqiu' } });
 };
 
 const mapStateToProps = state => (() =>{
   return{
-    state
+    lotteries: state.page.lotteries,
+    tagList: state.page.tagList,
+    rankList: state.forecast.itemList,
+    typeId: state.forecast.typeId,
   }
 });
 

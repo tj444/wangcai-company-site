@@ -18,7 +18,7 @@ const commonNode = props =>
         <div className="header">
           <div className="header-content">
             <div className="title-content">
-              <Link to="/">
+              <Link to="/home">
                 <Logo className="logo" />
                 <span className="title">提供专业彩票服务</span>
               </Link>
@@ -26,7 +26,7 @@ const commonNode = props =>
             <div className="right-content">
               <ul className="navbar">
                 <li>
-                  <Link to="/">
+                  <Link to="/home/新闻资讯,中奖故事,自编新闻">
                     <span>首页</span>
                   </Link>
                 </li>

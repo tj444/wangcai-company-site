@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { getAllLottery } from '@/services/page';
+import { getAllLottery, getTagList } from '@/services/page';
 
 export default {
   namespace: 'page',
@@ -7,9 +6,12 @@ export default {
     news: [],
     lotteries: [],
     tagList: [],
+    rankList:[],
+    tags:'新闻资讯,中奖故事,自编新闻',
   },
   reducers: {
     init(state, { payload }) {
+      console.log(payload,'@@init')
       return {
         ...state,
         ...payload,
@@ -26,11 +28,13 @@ export default {
     },
 
     *getTags({ payload }, { call, put }) {
-      // const res = yield call(getTagList,payload)
-      // yield put({
-      //   type: 'init',
-      //   payload: {tagList:res.data && res.data}
-      // })
+      const { tags } = payload;
+      yield put({ type: 'init', payload: { tags } });
+      const res = yield call(getTagList,payload)
+      yield put({
+        type: 'init',
+        payload: { tagList:res },
+      })
     },
   },
 };
