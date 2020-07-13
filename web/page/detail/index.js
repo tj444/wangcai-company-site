@@ -222,7 +222,7 @@ function Detail(props) {
 Detail.getInitialProps = async (ctx) => {
   const typeId = __isBrowser__ ? ctx.match.params.typeId : ctx.params.typeId;
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
-  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: newInfo, pagelen: 20, page: 1, mode: 'OR' }});
+  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: newInfo, pagelen: 4, page: 1, mode: 'OR' }});
   await ctx.store.dispatch({ type: 'forecast/getData', payload: { id: typeId || 'shuangseqiu' } });
 };
 
