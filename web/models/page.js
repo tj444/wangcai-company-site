@@ -11,7 +11,6 @@ export default {
   },
   reducers: {
     init(state, { payload }) {
-      console.log(payload,'@@init')
       return {
         ...state,
         ...payload,
