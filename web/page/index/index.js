@@ -169,7 +169,7 @@ function Page(props) {
             const { value, title } = v;
             const selected = selectTag === value;
             return (
-              <a href={`/${value}`} onClick={() => onChooseTags(value)} key={i} className={selected ? 'selectedInfo' : ''}>
+              <a href={`/home/${value}`} onClick={() => onChooseTags(value)} key={i} className={selected ? 'selectedInfo' : ''}>
                 {title}
               </a>
             );
@@ -205,7 +205,7 @@ function Page(props) {
 Page.getInitialProps = async ctx => {
   const tagsTitle = __isBrowser__ ? ctx.match.params.tags : ctx.params.tags;
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
-  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: tagsTitle , pagelen: 4, page: 1, mode: 'OR' }});
+  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: tagsTitle || defaultTag , pagelen: 4, page: 1, mode: 'OR' }});
 };
 
 const mapStateToProps = state => () => {
