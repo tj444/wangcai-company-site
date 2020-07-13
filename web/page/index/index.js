@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { connect } from 'dva';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode.react';
@@ -67,7 +67,6 @@ const LotteryItem = (props) =>{
         <p style={{color:'#333333',fontWeight:500}}>奖<span style={{width:'33px',display:'inline-block'}}></span>池：
           <span style={{color:'#ED0004'}}>{totalPrice}亿</span>
         </p>
-        <p>{balance}</p>
       </div>
     </Link>
   )
@@ -94,13 +93,14 @@ function Page(props) {
 
   const [selectTag,setSelectTag]  = useState(newInfo);
   const [mask,setMask]  = useState(false);
+  useEffect(() => {}, []);
   
   const onChooseTags = (tags) =>{
     setSelectTag(tags);
     props.dispatch({type:'page/getTags',payload:{tags,pagelen:10,page:1}});
   }
 
-  let lotteryList = [1,2,3];
+  let lotteryList = [];
   quanguo.map((v) =>{
     const {name=''} = v;
     const data = baseList.find(item =>item.name===name);
