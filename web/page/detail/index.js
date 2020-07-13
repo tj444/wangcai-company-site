@@ -137,7 +137,7 @@ function Detail(props) {
     <div className="page_body">
       <div className="mainBody">
           <div className="breadCrumb">
-            <Link to="/" style={{color:'#999999',fontSize:'12px'}}>
+            <Link to="/home" style={{color:'#999999',fontSize:'12px'}}>
               <p>首页</p>
             </Link>
             <p>{'>'}</p>
