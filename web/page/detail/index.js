@@ -121,11 +121,12 @@ function Detail(props) {
       lotteryList.push({...data,...v});
     }
   })
-  const [lotteryInfo,setLotteryInfo]  = useState(lotteryList[0]);
+  const lottery = lotteryList.find(item =>item.key ===typeId);
+  const [lotteryInfo,setLotteryInfo] = useState(lottery);
 
   const [mask,setMask]  = useState(false);
   const [totteryId,setTotteryId] = useState(typeId);
-  const [tottery,setLottery] = useState('双色球');
+  const [tottery,setLottery] = useState(lottery.name);
 
   const onSelectTab = (props) =>{
     const {key,name} =props;
@@ -223,7 +224,7 @@ Detail.getInitialProps = async (ctx) => {
   const typeId = __isBrowser__ ? ctx.match.params.typeId : ctx.params.typeId;
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
   await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: newInfo, pagelen: 4, page: 1, mode: 'OR' }});
-  await ctx.store.dispatch({ type: 'forecast/getData', payload: { id: typeId || 'shuangseqiu' } });
+  await ctx.store.dispatch({ type: 'forecast/getData', payload: { id: typeId } });
 };
 
 const mapStateToProps = state => (() =>{
