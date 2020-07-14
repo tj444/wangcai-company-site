@@ -12,6 +12,8 @@ function Trend(props) {
   const[tabTpyeList , setTabTpyeList]= useState([])
   const[tabCheck , setTabCheck]= useState(0)
   const[ifreamSrc , setIfreamSrc]= useState("")
+  const[ifreamStyle , setIfreamStyle]= useState({})
+  const[ifreamBoxStyle , setIfreamBoxStyle]= useState({})
   const changeLotteryType = (item,index)=>{
     setLotteryCheck(index)
     setTabTpyeList(pageData[item])
@@ -20,8 +22,17 @@ function Trend(props) {
   const changeTabTpye = (item,index)=>{
     setTabCheck(index)
     setIfreamSrc(item.link)
-
     
+
+    setIfreamStyle({
+      width:item.width,
+      height:6280,
+      transform:`scale(${960/item.width})`
+    })
+    setIfreamBoxStyle({
+      height:960/item.width*6280-10
+    })
+    // console.log(970/item.width)
   
   }
   useEffect(props=>{
@@ -51,12 +62,12 @@ function Trend(props) {
               </div>
             ))}
           </div>
-          {ifreamSrc&&<div>
+          {ifreamSrc&&<div className="iframeBox"  style={ifreamBoxStyle}>
             <iframe 
-              scrolling="yes"
+              scrolling="no"
               id="myIframe"
-             src={ifreamSrc+"&width=960"}
-             
+              src={ifreamSrc+"&scroll=false"}
+              style={ifreamStyle}
               frameBorder="0"
               />
           </div>}
