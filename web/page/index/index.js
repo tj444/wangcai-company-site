@@ -8,13 +8,13 @@ import './index.less';
 const qrcode = 'https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
 
 const baseList = [
-  { name: '双色球', img: require('../../assets/images/双色球.png') },
-  { name: '福彩3D', img: require('../../assets/images/3D.png') },
-  { name: '七乐彩', img: require('../../assets/images/7乐彩.png') },
-  { name: '大乐透', img: require('../../assets/images/大乐透.png') },
-  { name: '排序3', img: require('../../assets/images/排列3.png') },
-  { name: '排序5', img: require('../../assets/images/排列5.png') },
-  { name: '七星彩', img: require('../../assets/images/七星彩.png') },
+  {name:'双色球',img:require('../../assets/images/shuangseqiu.png')},
+  {name:'福彩3D',img:require('../../assets/images/3D.png')},
+  {name:'七乐彩',img:require('../../assets/images/7lecai.png')},
+  {name:'大乐透',img:require('../../assets/images/daletou.png')},
+  {name:'排序3',img:require('../../assets/images/pailie3.png')},
+  {name:'排序5',img:require('../../assets/images/pailie5.png')},
+  {name:'七星彩',img:require('../../assets/images/qixingcai.png')},
 ];
 
 const defaultTag = '新闻资讯,中奖故事,自编新闻';
