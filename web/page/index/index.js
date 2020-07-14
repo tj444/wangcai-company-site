@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode.react';
@@ -19,15 +19,6 @@ const baseList = [
 
 const defaultTag = '新闻资讯,中奖故事,自编新闻';
 
-const infoTabs = [
-  { title: '最新咨询', value: defaultTag },
-  { title: '双色球', value: '双色球' },
-  { title: '大乐透', value: '大乐透' },
-  { title: '3D', value: '福彩3D' },
-  { title: '排列3/5', value: '排列3,排列5' },
-  // {title:'七乐彩',value:'七乐彩'},
-];
-
 const LotteryItem = props => {
   const {
     name = '',
@@ -43,8 +34,8 @@ const LotteryItem = props => {
   const firstPrice = detail[0] && detail[0].count;
   const secondPrice = detail[1] && detail[1].count;
   const thirdPrice = detail[2] && detail[2].count;
-  const oneBlue = name === "双色球" || name === "七乐彩";
-  const twoBlue = name === "大乐透";
+  const oneBlue = name === '双色球' || name === '七乐彩';
+  const twoBlue = name === '大乐透';
   return (
     <Link className="lotteryItem" to="/detail">
       <div className="lotteryBaseInfo">
@@ -64,11 +55,11 @@ const LotteryItem = props => {
       </div>
       <div className="resultList">
         {resultList.map((v, i) => {
-          const last = i === resultList.length-1;
-          const sLast = i === resultList.length-2;
+          const last = i === resultList.length - 1;
+          const sLast = i === resultList.length - 2;
           let className = 'redBall';
-          if( oneBlue && last ) className = 'blueBall';
-          if( twoBlue && (last || sLast) ) className = 'blueBall';
+          if (oneBlue && last) className = 'blueBall';
+          if (twoBlue && (last || sLast)) className = 'blueBall';
           return (
             <div className={className} key={i}>
               {v}
@@ -79,12 +70,12 @@ const LotteryItem = props => {
       <div className="flexAlignCenter">
         <div className="priceInfo">
           <p>中奖详情：</p>
-          <div className='price_pool'>
+          <div className="price_pool">
             <p>奖</p>
             <p>池：</p>
           </div>
         </div>
-        <div style={{textAlign:'left'}}>
+        <div style={{ textAlign: 'left' }}>
           <div className="priceNum">
             <p>
               一等奖：<span style={{ color: '#ED0004' }}>{firstPrice}</span>
@@ -104,7 +95,7 @@ const LotteryItem = props => {
 };
 
 const InfoItem = props => {
-  const { images = [], title = '',source='',platform_pub_time=0,description='', setMask } = props;
+  const { images = [], title = '', source = '', platform_pub_time = 0, description = '', setMask } = props;
   return (
     <div className="infoItem" onClick={() => setMask(true)}>
       <img alt="图片地址错误" src={images[0] || ''} />
@@ -112,35 +103,35 @@ const InfoItem = props => {
         <p className="title">{title}</p>
         <div className="descript">{description}</div>
         <p className="readMore">{'阅读详情 >'}</p>
-        <p className="from">{source} {moment(moment.unix(platform_pub_time)).format('MM月DD日 HH:mm')}</p>
+        <p className="from">
+          {source} {moment(moment.unix(platform_pub_time)).format('MM月DD日 HH:mm')}
+        </p>
       </div>
     </div>
   );
 };
 
 function Page(props) {
-  const { lotteries = [], tagList:dataList = [],tags = defaultTag } = props;
-  const [selectTag,setSelectTag]  = useState(tags);
-  const [mask,setMask]  = useState(false);
-  const [tagList,setTagList]  = useState(dataList);
+  const { lotteries = [], infoTabs = [], tagList = [], tags = defaultTag } = props;
+  const [selectTag, setSelectTag] = useState(tags);
+  const [mask, setMask] = useState(false);
 
-  useEffect(() => {
-    setTagList(dataList);
-    console.log('@useEffect',dataList);
-  }, [JSON.stringify(dataList)]);
-  
-  const onChooseTags = (tags) =>{
-    if(tags === selectTag) return;
-    props.dispatch({ type: 'page/getTags', payload: { tags, pagelen: 20, page: 1 } });
+  console.log(tagList);
+
+  useEffect(() => {}, []);
+
+  const onChooseTags = tags => {
+    // if (tags === selectTag) return;
+    props.dispatch({ type: 'page/getTags', payload: { tags, pagelen: 4, page: 1 } });
     setSelectTag(tags);
   };
 
   let lotteryList = [];
-  lotteries.map((v) =>{
-    const {name=''} = v;
-    const data = baseList.find(item =>item.name===name);
-    if(data){
-      lotteryList.push({...data,...v});
+  lotteries.map(v => {
+    const { name = '' } = v;
+    const data = baseList.find(item => item.name === name);
+    if (data) {
+      lotteryList.push({ ...data, ...v });
     }
   });
   return (
@@ -169,7 +160,12 @@ function Page(props) {
             const { value, title } = v;
             const selected = selectTag === value;
             return (
-              <a href={`/home/${value}`} onClick={() => onChooseTags(value)} key={i} className={selected ? 'selectedInfo' : ''}>
+              <a
+                href="javascript:void(0)"
+                onClick={() => onChooseTags(value)}
+                key={i}
+                className={selected ? 'selectedInfo' : ''}
+              >
                 {title}
               </a>
             );
@@ -205,15 +201,15 @@ function Page(props) {
 Page.getInitialProps = async ctx => {
   const tagsTitle = __isBrowser__ ? ctx.match.params.tags : ctx.params.tags;
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
-  await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: tagsTitle || defaultTag , pagelen: 4, page: 1, mode: 'OR' }});
+  await ctx.store.dispatch({
+    type: 'page/getTags',
+    payload: { tags: tagsTitle || defaultTag, pagelen: 4, page: 1, mode: 'OR' },
+  });
 };
 
-const mapStateToProps = state => () => {
-  return {
-    lotteries: state.page.lotteries,
-    tagList: state.page.tagList,
-    tags: state.page.tags,
-  };
-};
-
-export default connect(mapStateToProps)(Page);
+export default connect(({ page }) => ({
+  lotteries: page.lotteries,
+  tagList: page.tagList,
+  tags: page.tags,
+  infoTabs: page.infoTabs,
+}))(Page);
