@@ -18,6 +18,8 @@ const baseList = [
   {name:'七星彩',img:require('../../assets/images/qixingcai.png')},
 ];
 
+const a = '';
+
 const LotteryDetail = (props) =>{
   const {name='',img='' ,result='08,17,24,26,27,31,04',open_time=1594300500, balance='', issue='',sales='' ,detail=[]} = props;
   const resultList = result.split(',');
