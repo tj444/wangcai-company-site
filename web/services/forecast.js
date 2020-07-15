@@ -2,9 +2,10 @@ import axios from 'axios';
 let baseUrl = process.env.NODE_ENV == 'development' ? 'http://localhost:7001' : process.env.SITE_BASE;
 // 获取所有彩票信息
 export async function getForecast(payload) {
-  console.log(baseUrl)
-  console.log(process.env.SITE_BASE)
   let data = [];
+  if (!baseUrl) {
+    baseUrl = ""
+  }
   try {
     const res1 = await axios.get(`${baseUrl}/api/getForecastData`, {
       params: {
