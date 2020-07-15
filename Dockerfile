@@ -4,13 +4,10 @@ FROM registry.cn-hangzhou.aliyuncs.com/jackleeinst/ssrbase
 COPY . /opt/app/
 RUN npm install
 
-# build necessary, even if no static files are needed,
-# since it builds the server as well
-RUN npm run prod
 
 # expose 8655 on container
 EXPOSE 7001
 EXPOSE 8000
 
 # start the app
-CMD [ "npm", "prod" ]
+CMD [ "npm", "run", "prod" ]

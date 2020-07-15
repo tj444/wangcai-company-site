@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'dva';
 import axios from 'axios';
 import './index.less';
@@ -11,6 +11,10 @@ function Forecast(props, props2) {
   const { itemList, typeList, typeId } = props;
   useEffect(() => {}, []);
 
+  const onTabChagne = (typeId) => {
+    props.dispatch({ type: 'forecast/getData', payload: { id: typeId } });
+  }
+
   return (
     <div className="forecast-box">
       <div className="leftBox">
@@ -18,9 +22,9 @@ function Forecast(props, props2) {
         <ul>
           {typeList.map((item, index) => (
             <li key={index} className={item.value == typeId ? 'active' : ''}>
-              <a href={`/forecast/${item.value}`}>
-                <span> {item.name}</span>
-              </a>
+              <Link onClick={()=>onTabChagne(item.value)} to={`/forecast/${item.value}`}>
+                <span>{item.name}</span>
+              </Link>
             </li>
           ))}
         </ul>

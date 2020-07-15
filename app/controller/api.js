@@ -63,7 +63,7 @@ class ApiController extends Controller {
         data: ctx.query,
         dataType: 'json',
       });
-      if (resp.status === 200 && resp.data && resp.data.status && resp.data.status === 0) {
+      if (resp.status === 200 && resp.data  && resp.data.status === 0) {
         ctx.body = resp.data.data;
       } else {
         ctx.body = [];
@@ -87,10 +87,10 @@ class ApiController extends Controller {
         dataType: 'json',
       });
 
-      if (resp.status === 200 && resp.data && resp.data.status && resp.data.status === 0) {
-        ctx.body = resp.data.data;
+      if (resp.status == 200 && resp.data &&  resp.data.status == 0) {
+        ctx.body = resp.data;
       } else {
-        ctx.body = [];
+        ctx.body = {};
       }
     } catch (error) {
       ctx.logger.error(error);

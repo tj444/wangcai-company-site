@@ -1,169 +1,190 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'dva';
-import { Link } from 'react-router-dom';
-import QRCode from 'qrcode.react';
-import moment from 'moment';
-import './index.less';
+import React, { useState, useEffect } from "react";
+import { connect } from "dva";
+import { Link } from "react-router-dom";
+import QRCode from "qrcode.react";
+import moment from "moment";
+import "./index.less";
 
-const qrcode = 'https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
+const qrcode = "https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk";
 
 const baseList = [
-  { name: '双色球', img: require('../../assets/images/shuangseqiu.png') },
-  { name: '福彩3D', img: require('../../assets/images/3D.png') },
-  { name: '七乐彩', img: require('../../assets/images/7lecai.png') },
-  { name: '大乐透', img: require('../../assets/images/daletou.png') },
-  { name: '排序3', img: require('../../assets/images/pailie3.png') },
-  { name: '排序5', img: require('../../assets/images/pailie5.png') },
-  { name: '七星彩', img: require('../../assets/images/qixingcai.png') },
+  { name: "双色球", img: require("../../assets/images/shuangseqiu.png") },
+  { name: "福彩3D", img: require("../../assets/images/3D.png") },
+  { name: "七乐彩", img: require("../../assets/images/7lecai.png") },
+  { name: "大乐透", img: require("../../assets/images/daletou.png") },
+  { name: "排序3", img: require("../../assets/images/pailie3.png") },
+  { name: "排序5", img: require("../../assets/images/pailie5.png") },
+  { name: "七星彩", img: require("../../assets/images/qixingcai.png") },
 ];
 
 const nameValue = {
-  双色球: 'shuangseqiu',
-  大乐透: 'daletou',
-  福彩3D: 'fucai3d',
-  七乐彩: 'qilecai',
-  七星彩: 'n7xingcai',
-  排列3: 'pailie3',
-  排列5: 'pailie5',
+  双色球: "shuangseqiu",
+  大乐透: "daletou",
+  福彩3D: "fucai3d",
+  七乐彩: "qilecai",
+  七星彩: "n7xingcai",
+  排列3: "pailie3",
+  排列5: "pailie5",
 };
 
-const defaultTag = '新闻资讯,中奖故事,自编新闻';
+const defaultTag = "新闻资讯,中奖故事,自编新闻";
 
-const LotteryItem = data => {
+const LotteryItem = (data) => {
   const {
-    name = '',
-    img = '',
-    result = '08,17,24,26,27,31,04',
+    name = "",
+    img = "",
+    result = "08,17,24,26,27,31,04",
     open_time = 1594300500,
-    balance = '',
-    issue = '',
+    balance = "",
+    issue = "",
     detail = [],
   } = data;
-  const resultList = result.split(',');
+  const resultList = result.split(",");
   const totalPrice = Number((balance / 100000000).toFixed(2));
   const firstPrice = detail[0] && detail[0].count;
   const secondPrice = detail[1] && detail[1].count;
   const thirdPrice = detail[2] && detail[2].count;
-  const oneBlue = name === '双色球' || name === '七乐彩';
-  const twoBlue = name === '大乐透';
+  const oneBlue = name === "双色球" || name === "七乐彩";
+  const twoBlue = name === "大乐透";
   return (
-    <Link className="lotteryItem" to={`/detail/${nameValue[data.name]}`}>
-      <div className="lotteryBaseInfo">
-        <img alt="" src={img} />
-        <div style={{ flex: 1 }}>
-          <div className="flexBetween1" style={{ marginBottom: '5px' }}>
-            <p style={{ fontSize: '18px', color: '#333333', fontWeight: 500 }}>{name}开奖结果</p>
-            <p className="detail">详情</p>
-          </div>
-          <div className="flexBetween1">
-            <p style={{ fontSize: '14px', color: '#999999' }}>第{issue}期</p>
-            <p style={{ fontSize: '14px', color: '#333333' }}>
-              {moment(moment.unix(open_time)).format('YYYY/MM/DD HH:mm')}
+    <Link className="lottery-item" to={`/detail/${nameValue[data.name]}`}>
+      <div className="lottery-base">
+        <img className="lottery-icon" alt="" src={img} />
+        <div className="lottery-info">
+          <div className="desc">
+            <p>{name}开奖结果</p>
+            <p>
+              <Link to={`/detail/${nameValue[data.name]}`}>详情</Link>
             </p>
+          </div>
+          <div className="date">
+            <p>第{issue}期</p>
+            <p>{moment(moment.unix(open_time)).format("YYYY/MM/DD HH:mm")}</p>
           </div>
         </div>
       </div>
-      <div className="resultList">
-        {resultList.map((v, i) => {
-          const last = i === resultList.length - 1;
-          const sLast = i === resultList.length - 2;
-          let className = 'redBall';
-          if (oneBlue && last) className = 'blueBall';
-          if (twoBlue && (last || sLast)) className = 'blueBall';
-          return (
-            <div className={className} key={i}>
-              {v}
-            </div>
-          );
-        })}
-      </div>
-      <div className="flexAlignCenter">
-        <div className="priceInfo">
-          <p>中奖详情：</p>
-          <div className="price_pool">
-            <p>奖</p>
-            <p>池：</p>
-          </div>
+      <div className="lottery-result">
+        <div className="lottery-result-box">
+          {resultList.map((v, i) => {
+            const last = i === resultList.length - 1;
+            const sLast = i === resultList.length - 2;
+            let className = "redBall";
+            if (oneBlue && last) className = "blueBall";
+            if (twoBlue && (last || sLast)) className = "blueBall";
+            return (
+              <div className={className} key={i}>
+                {v}
+              </div>
+            );
+          })}
         </div>
-        <div style={{ textAlign: 'left' }}>
-          <div className="priceNum">
-            <p>
-              一等奖：<span style={{ color: '#ED0004' }}>{firstPrice}</span>
-            </p>
-            <p style={{ margin: '0 30px' }}>
-              二等奖：<span style={{ color: '#ED0004' }}>{secondPrice}</span>
-            </p>
-            <p>
-              三等奖：<span style={{ color: '#ED0004' }}>{thirdPrice}</span>
-            </p>
-          </div>
-          <span style={{ color: '#ED0004' }}>{totalPrice}亿</span>
+      </div>
+      <div className="lottery-result-info-detail">
+        <div className="title">中奖详情：</div>
+        <div className="detail">
+          <p>
+            一等奖：<span style={{ color: "#ED0004" }}>{firstPrice}</span>
+          </p>
+          <p>
+            二等奖：<span style={{ color: "#ED0004" }}>{secondPrice}</span>
+          </p>
+          <p>
+            三等奖：<span style={{ color: "#ED0004" }}>{thirdPrice}</span>
+          </p>
+        </div>
+      </div>
+      <div className="lottery-result-info-pool">
+        <div className="title">
+          奖&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;池：
+        </div>
+        <div className="detail">
+          <span style={{ color: "#ED0004" }}>{totalPrice}亿</span>
         </div>
       </div>
     </Link>
   );
 };
 
-const InfoItem = props => {
-  const { images = [], title = '', source = '', platform_pub_time = 0, description = '', setMask } = props;
+const InfoItem = (props) => {
+  const {
+    images = [],
+    title = "",
+    source = "",
+    platform_pub_time = 0,
+    description = "",
+    setMask,
+  } = props;
   return (
-    <div className="infoItem" onClick={() => setMask(true)}>
-      <img alt="图片地址错误" src={images[0] || ''} />
-      <div>
+    <div className="info-item" onClick={() => setMask(true)}>
+      <div className="info-wrap">
+      <img className="info-pic" alt="图片地址错误" src={images[0] || ""} />
+      <div className="info-content">
         <p className="title">{title}</p>
-        <div className="descript">{description}</div>
-        <p className="readMore">{'阅读详情 >'}</p>
+        <div className="desc">{description}</div>
+        <p className="readmore">{"阅读详情 >"}</p>
         <p className="from">
-          {source} {moment(moment.unix(platform_pub_time)).format('MM月DD日 HH:mm')}
+          {source}{" "}
+          {moment(moment.unix(platform_pub_time)).format("MM月DD日 HH:mm")}
         </p>
+      </div>
       </div>
     </div>
   );
 };
 
 function Home(props) {
-  const { lotteries = [], infoTabs = [], tagList = [], tags = defaultTag } = props;
+  const {
+    lotteries = [],
+    infoTabs = [],
+    tagList = [],
+    tags = defaultTag,
+  } = props;
   const [selectTag, setSelectTag] = useState(tags);
   const [mask, setMask] = useState(false);
 
   useEffect(() => {}, []);
 
-  const onChooseTags = tags => {
+  const onChooseTags = (tags) => {
     // if (tags === selectTag) return;
-    props.dispatch({ type: 'page/getTags', payload: { tags, pagelen: 4, page: 1 } });
+    props.dispatch({
+      type: "page/getTags",
+      payload: { tags, pagelen: 4, page: 1 },
+    });
     setSelectTag(tags);
   };
 
   let lotteryList = [];
-  lotteries.map(v => {
-    const { name = '' } = v;
-    const data = baseList.find(item => item.name === name);
+  lotteries.map((v) => {
+    const { name = "" } = v;
+    const data = baseList.find((item) => item.name === name);
     if (data) {
       lotteryList.push({ ...data, ...v });
     }
   });
   return (
-    <div className="page_body">
-      <div className="bannerContent">
+    <div className="home">
+      <div className="home-wrap">
+      <div className="banner">
         <div className="banner1">
-          <img alt="" src={require('../../assets/images/banner02.png')} />
+          <img alt="" src={require("../../assets/images/banner02.png")} />
         </div>
         <div className="banner2">
-          <img alt="" src={require('../../assets/images/sbanner1.png')} />
+          <img alt="" src={require("../../assets/images/sbanner1.png")} />
         </div>
       </div>
 
-      <div className="mainBody">
-        <div className="right_box_title">
+      <div className="lottery">
+        <div className="lottery-title">
           <div>全国彩种开奖</div>
         </div>
-        <div className="all_lottery">
+        <div className="lottery-box">
           {lotteryList.map((v, i) => {
             return <LotteryItem {...v} key={i} />;
           })}
         </div>
-
-        <div className="info_title">
+      </div>
+      <div className="info">
+        <div className="info-title">
           {infoTabs.map((v, i) => {
             const { value, title } = v;
             const selected = selectTag === value;
@@ -172,21 +193,21 @@ function Home(props) {
                 href="javascript:void(0)"
                 onClick={() => onChooseTags(value)}
                 key={i}
-                className={selected ? 'selectedInfo' : ''}
+                className={selected ? "selected" : ""}
               >
                 {title}
               </a>
             );
           })}
         </div>
-        <div className="all_lottery">
+        <div className="info-box">
           {tagList.map((v, i) => {
             return <InfoItem setMask={setMask} {...v} key={i} />;
           })}
         </div>
       </div>
       {mask && (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div style={{ width: "100%", height: "100%" }}>
           <div className="mask"></div>
           <div className="downloadContainer">
             <div className="downloadBg">
@@ -198,17 +219,25 @@ function Home(props) {
                 />
               </div>
             </div>
-            <img onClick={() => setMask(false)} alt="" src={require('../../assets/images/closeBtn.png')} />
+            <img
+              onClick={() => setMask(false)}
+              alt=""
+              src={require("../../assets/images/closeBtn.png")}
+            />
           </div>
         </div>
       )}
     </div>
+    </div>
   );
 }
 
-Home.getInitialProps = async ctx => {
-  await ctx.store.dispatch({ type: 'page/getData', payload: {} });
-  await ctx.store.dispatch({ type: 'page/getTags', payload: { tags: defaultTag, pagelen: 4, page: 1, mode: 'OR' } });
+Home.getInitialProps = async (ctx) => {
+  await ctx.store.dispatch({ type: "page/getData", payload: {} });
+  await ctx.store.dispatch({
+    type: "page/getTags",
+    payload: { tags: defaultTag, pagelen: 4, page: 1, mode: "OR" },
+  });
 };
 
 export default connect(({ page }) => ({
