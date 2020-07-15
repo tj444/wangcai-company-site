@@ -24,7 +24,6 @@ export default {
       };
     },
     onTagsLoad(state, { payload }) {
-        console.log(1111)
       return {
         ...state,
         tagList: payload,
@@ -46,5 +45,5 @@ export default {
       const res = yield call(getTagList, payload);
       yield put({ type: 'onTagsLoad', payload: res });
     },
-  },
+  }
 };

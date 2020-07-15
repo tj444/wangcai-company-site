@@ -11,7 +11,7 @@ export default {
       { name: '排列三', value: 'pailie3' },
       { name: '七乐彩', value: 'qilecai' },
     ],
-    typeId: 'shuangseqiu',
+    typeId: '双色球',
   },
   reducers: {
     init(state, { payload }) {

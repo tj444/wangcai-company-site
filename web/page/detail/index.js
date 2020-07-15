@@ -7,6 +7,7 @@ import './index.less';
 
 const qrcode='https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
 const newInfo = '新闻资讯,中奖故事,自编新闻';
+let first = true;
 
 const baseList = [
   {name:'双色球',img:require('../../assets/images/shuangseqiu.png')},
@@ -18,12 +19,12 @@ const baseList = [
   {name:'七星彩',img:require('../../assets/images/qixingcai.png')},
 ];
 
-const a = '';
-
 const LotteryDetail = (props) =>{
   const {name='',img='' ,result='08,17,24,26,27,31,04',open_time=1594300500, balance='', issue='',sales='' ,detail=[]} = props;
   const resultList = result.split(',');
   const totalPrice = Number((balance/100000000).toFixed(2));
+  const oneBlue = name === '双色球' || name === '七乐彩';
+  const twoBlue = name === '大乐透';
   return (
     <div className="lottery_detail">
       <div className="lottery_issue">
@@ -37,8 +38,13 @@ const LotteryDetail = (props) =>{
         <p className="time">开奖时间：{moment(moment.unix(open_time)).format('YYYY-MM-DD HH:mm')}</p>
         <div className="resultList">
           {resultList.map((v,i) =>{
+          const last = i === resultList.length - 1;
+          const sLast = i === resultList.length - 2;
+          let className = 'redBall';
+          if (oneBlue && last) className = 'blueBall';
+          if (twoBlue && (last || sLast)) className = 'blueBall';
             return(
-              <div className={'redBall'} key={i}>{v}</div>
+              <div className={className} key={i}>{v}</div>
             )
           })}
         </div>
@@ -105,6 +111,19 @@ const PredictionItem = (props) =>{
 
 function Detail(props) {
   const { lotteries = [], tagList = [],typeId, rankList = [] } = props;
+  let params = {},id=typeId;  
+  try {
+    if(first){
+      document.documentElement.scrollTop = document.body.scrollTop = 0;
+      const {search=''} = props.location || {};
+      params =  getSearchParams(search);
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  if(params){
+    id = params.typeId;
+  }
   
   let rankFirstList = []; //预测的第一名
   rankList.map((v) =>{
@@ -123,24 +142,22 @@ function Detail(props) {
       lotteryList.push({...data,...v});
     }
   })
-  const lottery = lotteryList.find(item =>item.key ===typeId);
-  const [lotteryInfo,setLotteryInfo] = useState(lottery);
-
+  const lotteryData = lotteryList.find(item =>item.name ===id);
+  const [lotteryInfo,setLotteryInfo] = useState(lotteryData);
   const [mask,setMask]  = useState(false);
-  const [totteryId,setTotteryId] = useState(typeId);
-  const [tottery,setLottery] = useState(lottery.name);
+  const [lottery,setLottery] = useState(id);
 
-  const onSelectTab = (props) =>{
-    const {key,name} =props;
-    setTotteryId(key);
+  const onSelectTab = (params) =>{
+    const {  name ='' } =params;
     setLottery(name);
-    setLotteryInfo(props);
+    setLotteryInfo(params);
+    props.dispatch({ type: 'forecast/getData', payload: { id: name } });
   }
   return (
     <div className="page_body">
       <div className="mainBody">
           <div className="breadCrumb">
-            <Link to="/home" style={{color:'#999999',fontSize:'12px'}}>
+            <Link to="/" style={{color:'#999999',fontSize:'12px'}}>
               <p>首页</p>
             </Link>
             <p>{'>'}</p>
@@ -152,11 +169,12 @@ function Detail(props) {
               <div style={{padding:'10px 0'}}>
                 {
                   lotteryList.map((v,i) =>{
-                    const { name, key } = v;
-                    const selectedTitle = totteryId === key;
+                    const { name=''} = v;
+                    const selectedTitle = lottery === name;
+                    console.log(lottery,name,selectedTitle,'@lotteryList')
                     return(
                       <div key={i} className={selectedTitle?"selectedTitle":"normalTitle"}  onClick={() =>onSelectTab(v)}>
-                        <a href={`/detail/${key}`}>{name}</a>
+                        <a>{name}</a>
                       </div>
                     )
                   })
@@ -165,7 +183,7 @@ function Detail(props) {
             </div>
             <div style={{flex:1}}>
               <div className="box_title">
-                <div>{tottery}开奖详情</div>
+                <div>{lottery}开奖详情</div>
               </div>
               <LotteryDetail {...lotteryInfo} />
             </div>
@@ -222,11 +240,36 @@ function Detail(props) {
   );
 }
 
+const getSearchParams = (search) =>{
+  var pairs = search.slice(1).split('&');
+  var result = {};
+  pairs.forEach(function(pair) {
+      if (pair && pair.indexOf('=') !== -1) {
+          pair = pair.split('=');
+          //兼容写法
+          result[pair[0]] = result[
+              pair[0].toLocaleLowerCase()
+          ] = decodeURIComponent(pair[1] || '');
+      }
+  });
+
+  return JSON.parse(JSON.stringify(result));
+}
+
 Detail.getInitialProps = async (ctx) => {
-  const typeId = __isBrowser__ ? ctx.match.params.typeId : ctx.params.typeId;
+  let id = '双色球';
+  try {
+    const {search=''} = ctx.location || {};
+    const data =  getSearchParams(search);
+    console.log(search,data,'@@ctx11');
+    id = data.typeId;
+  } catch (error) {
+    console.log(error);
+  }
+  
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
   await ctx.store.dispatch({ type: 'page/getTags' ,payload:{ tags: newInfo, pagelen: 4, page: 1, mode: 'OR' }});
-  await ctx.store.dispatch({ type: 'forecast/getData', payload: { id: typeId } });
+  await ctx.store.dispatch({ type: 'forecast/getData', payload: { id } });
 };
 
 const mapStateToProps = state => (() =>{

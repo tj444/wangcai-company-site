@@ -6,6 +6,7 @@ import moment from 'moment';
 import './index.less';
 
 const qrcode = 'https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
+let first = true;
 
 const baseList = [
   {name:'双色球',img:require('../../assets/images/shuangseqiu.png')},
@@ -37,7 +38,7 @@ const LotteryItem = props => {
   const oneBlue = name === '双色球' || name === '七乐彩';
   const twoBlue = name === '大乐透';
   return (
-    <Link className="lotteryItem" to="/detail">
+    <Link className="lotteryItem" to={`/detail?typeId=${name}`}>
       <div className="lotteryBaseInfo">
         <img alt="" src={img} />
         <div style={{ flex: 1 }}>
@@ -80,7 +81,7 @@ const LotteryItem = props => {
             <p>
               一等奖：<span style={{ color: '#ED0004' }}>{firstPrice}</span>
             </p>
-            <p style={{ margin: '0 30px' }}>
+            <p style={{ margin: '0 20px' }}>
               二等奖：<span style={{ color: '#ED0004' }}>{secondPrice}</span>
             </p>
             <p>
@@ -116,7 +117,14 @@ function Page(props) {
   const [selectTag, setSelectTag] = useState(tags);
   const [mask, setMask] = useState(false);
 
-  console.log(tagList);
+  try {
+    if(first){
+      document.documentElement.scrollTop = document.body.scrollTop = 0;
+      first=false;
+    }
+  } catch (error) {
+    console.log(error)
+  }
 
   useEffect(() => {}, []);
 
