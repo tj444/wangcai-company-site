@@ -6,21 +6,30 @@ import moment from 'moment';
 import './index.less';
 
 const qrcode = 'https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk';
-let first = true;
 
 const baseList = [
-  {name:'双色球',img:require('../../assets/images/shuangseqiu.png')},
-  {name:'福彩3D',img:require('../../assets/images/3D.png')},
-  {name:'七乐彩',img:require('../../assets/images/7lecai.png')},
-  {name:'大乐透',img:require('../../assets/images/daletou.png')},
-  {name:'排序3',img:require('../../assets/images/pailie3.png')},
-  {name:'排序5',img:require('../../assets/images/pailie5.png')},
-  {name:'七星彩',img:require('../../assets/images/qixingcai.png')},
+  { name: '双色球', img: require('../../assets/images/shuangseqiu.png') },
+  { name: '福彩3D', img: require('../../assets/images/3D.png') },
+  { name: '七乐彩', img: require('../../assets/images/7lecai.png') },
+  { name: '大乐透', img: require('../../assets/images/daletou.png') },
+  { name: '排序3', img: require('../../assets/images/pailie3.png') },
+  { name: '排序5', img: require('../../assets/images/pailie5.png') },
+  { name: '七星彩', img: require('../../assets/images/qixingcai.png') },
 ];
+
+const nameValue = {
+  双色球: 'shuangseqiu',
+  大乐透: 'daletou',
+  福彩3D: 'fucai3d',
+  七乐彩: 'qilecai',
+  七星彩: 'n7xingcai',
+  排列3: 'pailie3',
+  排列5: 'pailie5',
+};
 
 const defaultTag = '新闻资讯,中奖故事,自编新闻';
 
-const LotteryItem = props => {
+const LotteryItem = data => {
   const {
     name = '',
     img = '',
@@ -29,7 +38,7 @@ const LotteryItem = props => {
     balance = '',
     issue = '',
     detail = [],
-  } = props;
+  } = data;
   const resultList = result.split(',');
   const totalPrice = Number((balance / 100000000).toFixed(2));
   const firstPrice = detail[0] && detail[0].count;
@@ -38,7 +47,7 @@ const LotteryItem = props => {
   const oneBlue = name === '双色球' || name === '七乐彩';
   const twoBlue = name === '大乐透';
   return (
-    <Link className="lotteryItem" to={`/detail?typeId=${name}`}>
+    <Link className="lotteryItem" to={`/detail/${nameValue[data.name]}`}>
       <div className="lotteryBaseInfo">
         <img alt="" src={img} />
         <div style={{ flex: 1 }}>
@@ -81,7 +90,7 @@ const LotteryItem = props => {
             <p>
               一等奖：<span style={{ color: '#ED0004' }}>{firstPrice}</span>
             </p>
-            <p style={{ margin: '0 20px' }}>
+            <p style={{ margin: '0 30px' }}>
               二等奖：<span style={{ color: '#ED0004' }}>{secondPrice}</span>
             </p>
             <p>
@@ -112,19 +121,10 @@ const InfoItem = props => {
   );
 };
 
-function Page(props) {
+function Home(props) {
   const { lotteries = [], infoTabs = [], tagList = [], tags = defaultTag } = props;
   const [selectTag, setSelectTag] = useState(tags);
   const [mask, setMask] = useState(false);
-
-  try {
-    if(first){
-      document.documentElement.scrollTop = document.body.scrollTop = 0;
-      first=false;
-    }
-  } catch (error) {
-    console.log(error)
-  }
 
   useEffect(() => {}, []);
 
@@ -206,13 +206,9 @@ function Page(props) {
   );
 }
 
-Page.getInitialProps = async ctx => {
-  const tagsTitle = __isBrowser__ ? ctx.match.params.tags : ctx.params.tags;
+Home.getInitialProps = async ctx => {
   await ctx.store.dispatch({ type: 'page/getData', payload: {} });
-  await ctx.store.dispatch({
-    type: 'page/getTags',
-    payload: { tags: tagsTitle || defaultTag, pagelen: 4, page: 1, mode: 'OR' },
-  });
+  await ctx.store.dispatch({ type: 'page/getTags', payload: { tags: defaultTag, pagelen: 4, page: 1, mode: 'OR' } });
 };
 
 export default connect(({ page }) => ({
@@ -220,4 +216,4 @@ export default connect(({ page }) => ({
   tagList: page.tagList,
   tags: page.tags,
   infoTabs: page.infoTabs,
-}))(Page);
+}))(Home);

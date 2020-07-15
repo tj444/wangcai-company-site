@@ -22,7 +22,7 @@ function Trend(props) {
   const changeTabTpye = (item,index)=>{
     setTabCheck(index)
     setIfreamSrc(item.link)
-    
+
 
     setIfreamStyle({
       width:item.width,
@@ -32,8 +32,6 @@ function Trend(props) {
     setIfreamBoxStyle({
       height:960/item.width*6280-10
     })
-    // console.log(970/item.width)
-  
   }
   useEffect(props=>{
     changeLotteryType("双色球",0)
@@ -55,7 +53,7 @@ function Trend(props) {
             <div >{lotteryTypeList[lotteryCheck]}图表走势</div>
           </div>
           <div className="tagList">
-          
+
             {tabTpyeList && tabTpyeList.map((item,index) => (
               <div key={index} onClick={() => changeTabTpye(item ,index)} className={(index ==tabCheck)?"active":"" }>
                 {item.name}
@@ -63,7 +61,7 @@ function Trend(props) {
             ))}
           </div>
           {ifreamSrc&&<div className="iframeBox"  style={ifreamBoxStyle}>
-            <iframe 
+            <iframe
               scrolling="no"
               id="myIframe"
               src={ifreamSrc+"&scroll=false"}

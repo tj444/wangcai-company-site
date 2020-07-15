@@ -55,18 +55,22 @@ class ApiController extends Controller {
       ctx.type = 'application/json';
       ctx.status = 200;
 
-      ctx.body = (
-        await this.ctx.curl('https://s0.icaipiao123.com/api/v2/rank/landing', {
-          method: 'get',
-          headers: {
-            'User-Agent': 'xWangcai Browser',
-          },
-          data: ctx.query,
-          dataType: 'json',
-        })
-      ).res.data;
+      const resp = await this.ctx.curl('https://s0.icaipiao123.com/api/v2/rank/landing', {
+        method: 'get',
+        headers: {
+          'User-Agent': 'xWangcai Browser',
+        },
+        data: ctx.query,
+        dataType: 'json',
+      });
+      if (resp.status === 200 && resp.data && resp.data.status && resp.data.status === 0) {
+        ctx.body = resp.data.data;
+      } else {
+        ctx.body = [];
+      }
     } catch (error) {
       ctx.logger.error(error);
+      ctx.body = [];
     }
   }
   async forecastList() {
@@ -74,15 +78,20 @@ class ApiController extends Controller {
     try {
       ctx.type = 'application/json';
       ctx.status = 200;
-      ctx.body = (
-        await this.ctx.curl(`https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.lottery_key}?encrypt=false`, {
-          method: 'get',
-          headers: {
-            'User-Agent': 'xWangcai Browser',
-          },
-          dataType: 'json',
-        })
-      ).res.data;
+      const url = `https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.lottery_key}?encrypt=false`;
+      const resp = await this.ctx.curl(url, {
+        method: 'get',
+        headers: {
+          'User-Agent': 'xWangcai Browser',
+        },
+        dataType: 'json',
+      });
+
+      if (resp.status === 200 && resp.data && resp.data.status && resp.data.status === 0) {
+        ctx.body = resp.data.data;
+      } else {
+        ctx.body = [];
+      }
     } catch (error) {
       ctx.logger.error(error);
     }

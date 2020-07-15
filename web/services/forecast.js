@@ -11,7 +11,7 @@ export async function getForecast(payload) {
       },
     });
 
-    data = res1.data.data;
+    data = res1.data
 
     const res2 = await axios.get(`${baseUrl}/api/getForecastData/getItem`, {
       params: {
