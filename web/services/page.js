@@ -1,5 +1,5 @@
 import axios from 'axios';
-let baseUrl = process.env.NODE_ENV == 'development' ? 'http://localhost:7001' : '';
+let baseUrl = process.env.NODE_ENV == 'development' ? 'http://localhost:7001' : process.env.SITE_BASE;
 
 // 获取所有彩票信息
 export async function getAllLottery() {
