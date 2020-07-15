@@ -18,6 +18,13 @@ module.exports = {
       handler: 'index',
     },
     {
+        path: '/detail/:typeId',
+      exact: true,
+      Component: () => require('@/page/detail').default,
+      controller: 'page',
+      handler: 'index',
+    },
+    {
       path: '/news/:id',
       exact: true,
       Component: () => require('@/page/news').default,
