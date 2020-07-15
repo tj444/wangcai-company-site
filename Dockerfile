@@ -1,4 +1,4 @@
-FROM registry.cn-qingdao.aliyuncs.com/jackleeinst/ssrbase
+FROM registry.cn-hangzhou.aliyuncs.com/jackleeinst/ssrbase
 
 # copy the app, note .dockerignore
 COPY . /opt/app/
