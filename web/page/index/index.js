@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "dva";
 import { Link } from "react-router-dom";
-import QRCode from "qrcode.react";
 import moment from "moment";
+import { useHistory } from "react-router-dom";
 import "./index.less";
 
-const qrcode = "https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk";
 
 const baseList = [
   { name: "双色球", img: require("../../assets/images/shuangseqiu.png") },
@@ -29,7 +28,7 @@ const nameValue = {
 
 const defaultTag = "新闻资讯,中奖故事,自编新闻";
 
-const LotteryItem = (data) => {
+const LotteryItem = (props) => {
   const {
     name = "",
     img = "",
@@ -38,7 +37,7 @@ const LotteryItem = (data) => {
     balance = "",
     issue = "",
     detail = [],
-  } = data;
+  } = props;
   const resultList = result.split(",");
   const totalPrice = Number((balance / 100000000).toFixed(2));
   const firstPrice = detail[0] && detail[0].count;
@@ -47,14 +46,14 @@ const LotteryItem = (data) => {
   const oneBlue = name === "双色球" || name === "七乐彩";
   const twoBlue = name === "大乐透";
   return (
-    <Link className="lottery-item" to={`/detail/${nameValue[data.name]}`}>
+    <div className="lottery-item" onClick={()=>props.history.push(`/detail/${nameValue[props.name]}`)}>
       <div className="lottery-base">
         <img className="lottery-icon" alt="" src={img} />
         <div className="lottery-info">
           <div className="desc">
             <p>{name}开奖结果</p>
             <p>
-              <Link to={`/detail/${nameValue[data.name]}`}>详情</Link>
+              <Link to={`/detail/${nameValue[props.name]}`}>详情</Link>
             </p>
           </div>
           <div className="date">
@@ -101,7 +100,7 @@ const LotteryItem = (data) => {
           <span style={{ color: "#ED0004" }}>{totalPrice}亿</span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
@@ -140,7 +139,9 @@ function Home(props) {
     tags = defaultTag,
   } = props;
   const [selectTag, setSelectTag] = useState(tags);
-  const [mask, setMask] = useState(false);
+
+  let history = useHistory();
+
 
   useEffect(() => {}, []);
 
@@ -179,7 +180,7 @@ function Home(props) {
         </div>
         <div className="lottery-box">
           {lotteryList.map((v, i) => {
-            return <LotteryItem {...v} key={i} />;
+            return <LotteryItem {...v} history={history} key={i} />;
           })}
         </div>
       </div>
@@ -202,31 +203,12 @@ function Home(props) {
         </div>
         <div className="info-box">
           {tagList.map((v, i) => {
-            return <InfoItem setMask={setMask} {...v} key={i} />;
+            return <InfoItem setMask={()=>{
+              props.dispatch({ type: "global/setModal", payload: true });
+            }} {...v} key={i} />;
           })}
         </div>
       </div>
-      {mask && (
-        <div style={{ width: "100%", height: "100%" }}>
-          <div className="mask"></div>
-          <div className="downloadContainer">
-            <div className="downloadBg">
-              <div className="downloadDiv">
-                <QRCode
-                  value={qrcode} // 生成二维码的内容
-                  size={100} // 二维码的大小
-                  fgColor="#000000" // 二维码的颜色
-                />
-              </div>
-            </div>
-            <img
-              onClick={() => setMask(false)}
-              alt=""
-              src={require("../../assets/images/closeBtn.png")}
-            />
-          </div>
-        </div>
-      )}
     </div>
     </div>
   );
@@ -240,9 +222,10 @@ Home.getInitialProps = async (ctx) => {
   });
 };
 
-export default connect(({ page }) => ({
+export default connect(({ page, loading }) => ({
   lotteries: page.lotteries,
   tagList: page.tagList,
   tags: page.tags,
   infoTabs: page.infoTabs,
+  loading: loading,
 }))(Home);

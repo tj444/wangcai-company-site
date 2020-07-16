@@ -1,19 +1,25 @@
 import React from "react";
 import serialize from "serialize-javascript";
 import { Link } from "react-router-dom";
-import StickyFooter from "react-sticky-footer";
-import "normalize.css";
-import { ReactComponent as Logo } from "@/assets/images/logo.svg";
+import { connect } from 'dva';
+import QRCode from "qrcode.react";
+
 import cmb from "@/assets/images/ssq.png";
 import dzb from "@/assets/images/dzb.png";
+import { ReactComponent as Logo } from "@/assets/images/logo.svg";
+import Loading from '@/components/Loading'
 
+import "normalize.css";
 import "@/assets/common.less";
 import "./index.less";
+
+const qrcode = "https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk";
 
 const commonNode = (props) =>
   // 为了同时兼容ssr/csr请保留此判断，如果你的layout没有内容请使用 props.children ?  props.children  : ''
   props.children ? (
     <div className="wrapper">
+    {props.loading && <Loading loading={props.loading} />}
       <div className="header">
         <div className="header-content">
           <div className="title-content">
@@ -58,9 +64,11 @@ const commonNode = (props) =>
                 </Link>
               </li>
               <li>
-                <Link to="/">
-                  <span>下载App</span>
-                </Link>
+                <a href="javascript:void(0)" onClick={()=>{
+                  props.dispatch({ type: "global/setModal", payload: true });
+                }}>
+                  <span>下载</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -84,9 +92,11 @@ const commonNode = (props) =>
                 </Link>
               </li>
               <li>
-                <Link to="/">
+                <a href="javascript:void(0)" onClick={()=>{
+                  props.dispatch({ type: "global/setModal", payload: true });
+                }}>
                   <span>下载</span>
-                </Link>
+                </a>
               </li>
               <li>
                 <Link to="/about">
@@ -115,6 +125,29 @@ const commonNode = (props) =>
           </div>
         </div>
       </div>
+      {props.modal && (
+        <div style={{ width: "100%", height: "100%" }}>
+          <div className="mask"></div>
+          <div className="downloadContainer">
+            <div className="downloadBg">
+              <div className="downloadDiv">
+                <QRCode
+                  value={qrcode} // 生成二维码的内容
+                  size={100} // 二维码的大小
+                  fgColor="#000000" // 二维码的颜色
+                />
+              </div>
+            </div>
+            <img
+              onClick={() => {
+              props.dispatch({ type: "global/setModal", payload: false });
+              }}
+              alt=""
+              src={require("../assets/images/closeBtn.png")}
+            />
+          </div>
+        </div>
+      )}
     </div>
   ) : (
     ""
@@ -163,4 +196,7 @@ const Layout = (props) => {
   }
 };
 
-export default Layout;
+export default connect(({loading, global})=>({
+  loading: loading.global,
+  modal: global.modal,
+}))(Layout);
