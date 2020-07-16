@@ -11,8 +11,8 @@ const baseList = [
   { name: "福彩3D", img: require("../../assets/images/3D.png") },
   { name: "七乐彩", img: require("../../assets/images/7lecai.png") },
   { name: "大乐透", img: require("../../assets/images/daletou.png") },
-  { name: "排序3", img: require("../../assets/images/pailie3.png") },
-  { name: "排序5", img: require("../../assets/images/pailie5.png") },
+  { name: "排列3", img: require("../../assets/images/pailie3.png") },
+  { name: "排列5", img: require("../../assets/images/pailie5.png") },
   { name: "七星彩", img: require("../../assets/images/qixingcai.png") },
 ];
 
@@ -32,7 +32,7 @@ const LotteryItem = (props) => {
   const {
     name = "",
     img = "",
-    result = "08,17,24,26,27,31,04",
+    result = "",
     open_time = 1594300500,
     balance = "",
     issue = "",
