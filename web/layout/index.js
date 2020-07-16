@@ -13,7 +13,7 @@ import "normalize.css";
 import "@/assets/common.less";
 import "./index.less";
 
-const qrcode = "https://apk.cdn.wcssq.cn/ssq/release/latest/ssq-p034.apk";
+const qrcode = "https://m.wcssq.cn/share/wechat.html?p=034";
 
 const commonNode = (props) =>
   // 为了同时兼容ssr/csr请保留此判断，如果你的layout没有内容请使用 props.children ?  props.children  : ''
@@ -107,7 +107,7 @@ const commonNode = (props) =>
             <div className="copyright">
               Copyright ©2016 北京掌控世代科技有限公司
             </div>
-            <div className="registered">备案号:京ICP备14035183号-1</div>
+            <div className="registered">备案号:<a href="http://www.beian.miit.gov.cn/">京ICP备14035183号-1</a></div>
           </div>
           <div className="footer-right">
             <div className="down-caimin">

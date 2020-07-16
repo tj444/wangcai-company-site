@@ -37,7 +37,7 @@ function ForecastItem(props) {
               )}
               <div>
                 <div>
-                  <img className="userIcon" src={item.icon} />
+                  <img className="userIcon" src={`${item.icon}!avatar`} />
                 </div>
                 <div className="user_Info">
                   <div className="UserName">{item.master_name}</div>

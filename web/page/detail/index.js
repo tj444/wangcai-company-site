@@ -34,7 +34,7 @@ const LotteryDetail = (props) => {
   const {
     name = "",
     img = "",
-    result = "08,17,24,26,27,31,04",
+    result = "",
     open_time = 1594300500,
     balance = "",
     issue = "",
@@ -143,7 +143,7 @@ const PredictionItem = (props) => {
   return (
     <div className="prediction-item" onClick={props.onClick}>
       <p className="title">{category}</p>
-      <img alt="图片地址错误" src={icon} />
+      <img alt="图片地址错误" src={`${icon}!avatar`} />
       <p className="name">{master_name}</p>
       <p className="grade">
         近{recent_result} 最近连中{recent_hit}期
