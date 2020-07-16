@@ -171,7 +171,7 @@ const Layout = (props) => {
           <title>旺彩--提供专业彩票服务</title>
           {injectCss &&
             injectCss.map((item) => (
-              <link rel="stylesheet" href={item} key={item} />
+              <link rel="stylesheet" href={item + "?"+(new Date().getTime())} key={item} />
             ))}
         </head>
         <body>
