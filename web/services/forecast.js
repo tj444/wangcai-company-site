@@ -4,7 +4,7 @@ let baseUrl = process.env.NODE_ENV == 'development' ? 'http://localhost:7001' : 
 export async function getForecast(payload) {
   let data = [];
   if (!baseUrl) {
-    baseUrl = ""
+    baseUrl = '';
   }
   try {
     const res1 = await axios.get(`${baseUrl}/api/getForecastData`, {
@@ -14,7 +14,7 @@ export async function getForecast(payload) {
       },
     });
 
-    data = res1.data
+    data = res1.data;
 
     const res2 = await axios.get(`${baseUrl}/api/getForecastData/getItem`, {
       params: {
@@ -23,7 +23,7 @@ export async function getForecast(payload) {
       },
     });
 
-    const cateItems = res2.data.category;
+    const cateItems = res2.data.category ? res2.data.category : [];
 
     var dic = {};
     for (const v of cateItems) {
