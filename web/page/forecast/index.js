@@ -30,7 +30,9 @@ function Forecast(props, props2) {
         </ul>
       </div>
       <div className="right_box">
-        {itemList && itemList.map((item, index) => <ForecastItem key={index} itemInfo={item}></ForecastItem>)}
+        {itemList && itemList.map((item, index) => <ForecastItem key={index} itemInfo={item} setMask={()=>{
+          props.dispatch({ type: "global/setModal", payload: true });
+        }}></ForecastItem>)}
       </div>
     </div>
   );

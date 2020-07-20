@@ -5,7 +5,6 @@ import moment from "moment";
 import { useHistory } from "react-router-dom";
 import "./index.less";
 
-
 const baseList = [
   { name: "双色球", img: require("../../assets/images/shuangseqiu.png") },
   { name: "福彩3D", img: require("../../assets/images/3D.png") },
@@ -43,10 +42,20 @@ const LotteryItem = (props) => {
   const firstPrice = detail[0] && detail[0].count;
   const secondPrice = detail[1] && detail[1].count;
   const thirdPrice = detail[2] && detail[2].count;
+
+  const firstName = detail[0] && detail[0].name;
+  const secondName = detail[1] && detail[1].name;
+  const thirdName = detail[2] && detail[2].name;
+
   const oneBlue = name === "双色球" || name === "七乐彩";
   const twoBlue = name === "大乐透";
+
+  console.log(props);
   return (
-    <div className="lottery-item" onClick={()=>props.history.push(`/detail/${nameValue[props.name]}`)}>
+    <div
+      className="lottery-item"
+      onClick={() => props.history.push(`/detail/${nameValue[props.name]}`)}
+    >
       <div className="lottery-base">
         <img className="lottery-icon" alt="" src={img} />
         <div className="lottery-info">
@@ -81,15 +90,25 @@ const LotteryItem = (props) => {
       <div className="lottery-result-info-detail">
         <div className="title">中奖详情：</div>
         <div className="detail">
-          <p>
-            一等奖：<span style={{ color: "#ED0004" }}>{firstPrice}</span>
-          </p>
-          <p>
-            二等奖：<span style={{ color: "#ED0004" }}>{secondPrice}</span>
-          </p>
-          <p>
-            三等奖：<span style={{ color: "#ED0004" }}>{thirdPrice}</span>
-          </p>
+          {detail[0] && (
+            <p>
+              {detail[0].name}：
+              <span style={{ color: "#ED0004" }}>{detail[0].count}</span>
+            </p>
+          )}
+          {detail[1] && (
+            <p>
+              {detail[1].name}：
+              <span style={{ color: "#ED0004" }}>{detail[1].count}</span>
+            </p>
+          )}
+
+          {detail[2] && (
+            <p>
+              {detail[2].name}：
+              <span style={{ color: "#ED0004" }}>{detail[2].count}</span>
+            </p>
+          )}
         </div>
       </div>
       <div className="lottery-result-info-pool">
@@ -116,16 +135,16 @@ const InfoItem = (props) => {
   return (
     <div className="info-item" onClick={() => setMask(true)}>
       <div className="info-wrap">
-      <img className="info-pic" alt="图片地址错误" src={images[0] || ""} />
-      <div className="info-content">
-        <p className="title">{title}</p>
-        <div className="desc">{description}</div>
-        <p className="readmore">{"阅读详情 >"}</p>
-        <p className="from">
-          {source}{" "}
-          {moment(moment.unix(platform_pub_time)).format("MM月DD日 HH:mm")}
-        </p>
-      </div>
+        <img className="info-pic" alt="图片地址错误" src={images[0] || ""} />
+        <div className="info-content">
+          <p className="title">{title}</p>
+          <div className="desc">{description}</div>
+          <p className="readmore">{"阅读详情 >"}</p>
+          <p className="from">
+            {source}{" "}
+            {moment(moment.unix(platform_pub_time)).format("MM月DD日 HH:mm")}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -141,7 +160,6 @@ function Home(props) {
   const [selectTag, setSelectTag] = useState(tags);
 
   let history = useHistory();
-
 
   useEffect(() => {}, []);
 
@@ -165,51 +183,57 @@ function Home(props) {
   return (
     <div className="home">
       <div className="home-wrap">
-      <div className="banner">
-        <div className="banner1">
-          <img alt="" src={require("../../assets/images/banner02.png")} />
+        <div className="banner">
+          <div className="banner1">
+            <img alt="" src={require("../../assets/images/banner02.png")} />
+          </div>
+          <div className="banner2">
+            <img alt="" src={require("../../assets/images/sbanner1.png")} />
+          </div>
         </div>
-        <div className="banner2">
-          <img alt="" src={require("../../assets/images/sbanner1.png")} />
-        </div>
-      </div>
 
-      <div className="lottery">
-        <div className="lottery-title">
-          <div>全国彩种开奖</div>
+        <div className="lottery">
+          <div className="lottery-title">
+            <div>全国彩种开奖</div>
+          </div>
+          <div className="lottery-box">
+            {lotteryList.map((v, i) => {
+              return <LotteryItem {...v} history={history} key={i} />;
+            })}
+          </div>
         </div>
-        <div className="lottery-box">
-          {lotteryList.map((v, i) => {
-            return <LotteryItem {...v} history={history} key={i} />;
-          })}
+        <div className="info">
+          <div className="info-title">
+            {infoTabs.map((v, i) => {
+              const { value, title } = v;
+              const selected = selectTag === value;
+              return (
+                <a
+                  href="javascript:void(0)"
+                  onClick={() => onChooseTags(value)}
+                  key={i}
+                  className={selected ? "selected" : ""}
+                >
+                  {title}
+                </a>
+              );
+            })}
+          </div>
+          <div className="info-box">
+            {tagList.map((v, i) => {
+              return (
+                <InfoItem
+                  setMask={() => {
+                    props.dispatch({ type: "global/setModal", payload: true });
+                  }}
+                  {...v}
+                  key={i}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
-      <div className="info">
-        <div className="info-title">
-          {infoTabs.map((v, i) => {
-            const { value, title } = v;
-            const selected = selectTag === value;
-            return (
-              <a
-                href="javascript:void(0)"
-                onClick={() => onChooseTags(value)}
-                key={i}
-                className={selected ? "selected" : ""}
-              >
-                {title}
-              </a>
-            );
-          })}
-        </div>
-        <div className="info-box">
-          {tagList.map((v, i) => {
-            return <InfoItem setMask={()=>{
-              props.dispatch({ type: "global/setModal", payload: true });
-            }} {...v} key={i} />;
-          })}
-        </div>
-      </div>
-    </div>
     </div>
   );
 }

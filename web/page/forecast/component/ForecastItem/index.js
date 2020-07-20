@@ -5,7 +5,7 @@ import './index.less';
 function ForecastItem(props) {
   useEffect(props => {}, []);
   return (
-    <div className="ForecastItem">
+    <div className="ForecastItem" >
       <div className="ForecastItem_title">
         <img src={require('../../../../assets/images/pot.png')} />
         {props.itemInfo.category}
@@ -14,7 +14,7 @@ function ForecastItem(props) {
       <div className="peopleGroup">
         {props.itemInfo.data &&
           props.itemInfo.data.map((item, index) => (
-            <div className="peopleItem" key={index}>
+            <div className="peopleItem" key={index} style={{cursor: 'pointer'}} onClick={() => props.setMask(true)}>
               {index == 0 && (
                 <div>
                   <img src={require('../../../../assets/images/one.png')} />{' '}
