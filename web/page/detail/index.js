@@ -11,10 +11,10 @@ const newInfo = "新闻资讯,中奖故事,自编新闻";
 let first = true;
 
 const baseList = [
-  { name: "双色球", img: require("../../assets/images/shuangseqiu.png") },
+  { name: "双色球", img: require("../../assets/images/shuangseqiu.png"), config: [6,1] },
   { name: "福彩3D", img: require("../../assets/images/3D.png") },
-  { name: "七乐彩", img: require("../../assets/images/7lecai.png") },
-  { name: "大乐透", img: require("../../assets/images/daletou.png") },
+  { name: "七乐彩", img: require("../../assets/images/7lecai.png"), config: [7,1] },
+  { name: "大乐透", img: require("../../assets/images/daletou.png"), config: [5,2] },
   { name: "排列3", img: require("../../assets/images/pailie3.png") },
   { name: "排列5", img: require("../../assets/images/pailie5.png") },
   { name: "七星彩", img: require("../../assets/images/qixingcai.png") },
@@ -40,6 +40,7 @@ const LotteryDetail = (props) => {
     issue = "",
     sales = "",
     detail = [],
+    config,
   } = props;
   const resultList = result.split(",");
   const totalPrice = Number((balance / 100000000).toFixed(2));
@@ -48,7 +49,7 @@ const LotteryDetail = (props) => {
       <div className="lottery-issue">
         <div className="left-content">
           <div className="img">
-            <img alt="" src={img} />
+            <img alt="icon" src={img} />
           </div>
           <p>第{issue}期</p>
         </div>
@@ -65,8 +66,9 @@ const LotteryDetail = (props) => {
         </p>
         <div className="lottery-result-list">
           {resultList.map((v, i) => {
+            const cn = config && i >= config[0] ? "blueBall" : "redBall";
             return (
-              <div className={"redBall"} key={i}>
+              <div className={cn} key={i}>
                 {v}
               </div>
             );
@@ -176,6 +178,7 @@ function Detail(props) {
 
   const onSelectTab = (v) => {
     const { key, name } = v;
+    props.dispatch({ type: "global/setTitle", payload: `${valueName[key] || "彩票"}最新开奖结果` });
     props.dispatch({ type: "detail/setTypeId", payload: key });
     props.dispatch({ type: "forecast/getData", payload: { id: key } });
   };
@@ -280,6 +283,7 @@ const getSearchParams = (search) => {
 
 Detail.getInitialProps = async (ctx) => {
   const typeId = __isBrowser__ ? ctx.match.params.typeId : ctx.params.typeId;
+  await ctx.store.dispatch({ type: "global/setTitle", payload: `${valueName[typeId] || "彩票"}最新开奖结果` });
   await ctx.store.dispatch({ type: "detail/setTypeId", payload: typeId });
   await ctx.store.dispatch({ type: "detail/getData", payload: {} });
   await ctx.store.dispatch({

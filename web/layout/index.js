@@ -112,13 +112,13 @@ const commonNode = (props) =>
           <div className="footer-right">
             <div className="down-caimin">
               <div className="imgBox">
-                <img src={cmb} />
+                <img src={cmb} alt="旺彩双色球软件官网下载"/>
               </div>
               <h4>彩民版下载</h4>
             </div>
             <div className="down-caimin">
               <div className="imgBox">
-                <img src={dzb} />
+                <img src={dzb} alt="旺彩店主版官网下载"/>
               </div>
               <h4>店主版下载</h4>
             </div>
@@ -168,7 +168,11 @@ const Layout = (props) => {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <meta name="theme-color" content="#000000" />
-          <title>旺彩--提供专业彩票服务</title>
+          <title>{props.title || "旺彩双色球App-专业彩票预测APP软件-旺彩官网"}</title>
+          <meta name="keywords" content="旺彩双色球、旺彩app、旺彩app官网"/>
+          <meta name="description" content="旺彩双色球是专门为广大双色球用户提供双色球预测，旺彩社区平台，彩票走势图分析，彩票历史开奖查询，开奖直播，双色球大数据分析的工具软件。旺彩是彩票互联网服务领导者，开奖信息及时全面，走势图功能专业远超同类软件。"/>
+          <meta name="author" content="旺彩双色球"/>
+          <meta name="application-name" content="旺彩双色球"/>
           {injectCss &&
             injectCss.map((item) => (
               <link rel="stylesheet" href={item + "?"+(new Date().getTime())} key={item} />
@@ -199,4 +203,5 @@ const Layout = (props) => {
 export default connect(({loading, global})=>({
   loading: loading.global,
   modal: global.modal,
+  title: global.title,
 }))(Layout);
