@@ -103,6 +103,11 @@ const commonNode = (props) =>
                   <span>关于我们</span>
                 </Link>
               </li>
+              <li>
+                <Link to="https://h5.wcssq.cn">
+                  <span>触屏版</span>
+                </Link>
+              </li>
             </ul>
             <div className="copyright">
               Copyright ©2016 北京掌控世代科技有限公司
