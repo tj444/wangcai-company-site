@@ -83,7 +83,7 @@ const commonNode = (props) =>
             <ul className="nav">
               <li>
                 <Link to="/LotteryEdition">
-                  <span>旺彩彩民版</span>
+                  <span>旺彩APP</span>
                 </Link>
               </li>
               <li>
@@ -99,13 +99,13 @@ const commonNode = (props) =>
                 </a>
               </li>
               <li>
-                <Link to="/about">
-                  <span>关于我们</span>
-                </Link>
+                <a href="https://h5.wcssq.cn">
+                  <span>触屏版</span>
+                </a>
               </li>
               <li>
-                <Link to="https://h5.wcssq.cn">
-                  <span>触屏版</span>
+                <Link to="/about">
+                  <span>关于我们</span>
                 </Link>
               </li>
             </ul>
