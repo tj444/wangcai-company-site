@@ -7,7 +7,7 @@ class ApiController extends Controller {
     try {
       ctx.type = 'application/json';
       ctx.status = 200;
-      const resp = await this.ctx.curl('https://api.icaipiao123.com/api/v6/lotterynums/latest/all', {
+      const resp = await this.ctx.curl('http://api.icaipiao123.com/api/v6/lotterynums/latest/all', {
         method: 'get',
         headers: {
           'User-Agent': 'xWangcai Browser',
@@ -30,7 +30,7 @@ class ApiController extends Controller {
     try {
       ctx.type = 'application/json';
       ctx.status = 200;
-      const resp = await this.ctx.curl('https://api.icaipiao123.com/api/v8/search/bytags', {
+      const resp = await this.ctx.curl('http://api.icaipiao123.com/api/v8/search/bytags', {
         method: 'get',
         headers: {
           'User-Agent': 'xWangcai Browser',
@@ -55,7 +55,7 @@ class ApiController extends Controller {
       ctx.type = 'application/json';
       ctx.status = 200;
 
-      const resp = await this.ctx.curl('https://s0.icaipiao123.com/api/v2/rank/landing', {
+      const resp = await this.ctx.curl('http://s0.icaipiao123.com/api/v2/rank/landing', {
         method: 'get',
         headers: {
           'User-Agent': 'xWangcai Browser',
@@ -78,7 +78,7 @@ class ApiController extends Controller {
     try {
       ctx.type = 'application/json';
       ctx.status = 200;
-      const url = `https://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.lottery_key}?encrypt=false`;
+      const url = `http://s0.icaipiao123.com/api/v2/rank/items/${ctx.query.lottery_key}?encrypt=false`;
       const resp = await this.ctx.curl(url, {
         method: 'get',
         headers: {
