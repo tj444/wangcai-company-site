@@ -2,7 +2,7 @@
   "name": "ssr-with-js",
   "version": "2.3.3",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dva": "^2.4.1",
     "dva-loading": "^3.0.20",
     "egg": "^2.21.0",
